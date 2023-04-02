@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "91199716034",
+    "project_id": "spe-app-382510",
+    "storage_bucket": "spe-app-382510.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91199716034:android:80b604c61e3fc51d35195b",
+        "android_client_info": {
+          "package_name": "com.tyumgu.spe.spe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91199716034-7dahueui6p91cc8s53qfkka07abveqdh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVDiyHSk8je9OCkwXMsZWVFTQcqS5M01c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91199716034-7dahueui6p91cc8s53qfkka07abveqdh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,31 @@
+name: spe
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  freezed_annotation: ^2.2.0
+  json_annotation: ^4.8.0
+  flutter_hooks: ^0.18.0
+  hooks_riverpod: ^2.3.2
+  firebase_core: ^2.9.0
+  firebase_auth: ^4.4.0
+  firebase_ui_auth: ^1.2.0
+  firebase_ui_oauth_google: ^1.1.0
+  rxdart: ^0.27.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  build_runner: ^2.3.3
+  freezed: ^2.3.2
+  json_serializable: ^6.6.1
+
+flutter:
+  uses-material-design: true
