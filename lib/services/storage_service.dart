@@ -1,16 +1,41 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+enum CollectionPaths {
+  users('/users');
+
+  final String path;
+
+  const CollectionPaths(this.path);
+}
+
 class StorageService {
   final _db = FirebaseFirestore.instance;
 
-  Future<Document> add(String path, Map<String, dynamic> model) async {
-    final doc = await _db.collection(path).add(model);
-    final ref = await doc.get();
+  Future<void> init() async {
+    _db.useFirestoreEmulator('127.0.0.1', 8080);
+  }
+
+  Future<Document> add(
+    CollectionPaths collectionPath,
+    String id,
+    Map<String, Object?> model,
+  ) async {
+    final docPath = '${collectionPath.path}/$id';
+    await _db.doc(docPath).set(model);
 
     return Document(
-      data: ref.data() ?? {},
-      path: doc.path,
+      data: model,
+      path: docPath,
     );
+  }
+
+  Future<bool> update(String docPath, Map<String, Object?> model) async {
+    try {
+      await _db.doc(docPath).update(model);
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   Future<Document?> get(String path) async {
@@ -18,22 +43,29 @@ class StorageService {
     return doc;
   }
 
-  Future<List<Document?>> getAll(String path) async {
-    final docs = await _getAllDocuments(path);
+  Future<List<Document?>> getAll(CollectionPaths collectionPath) async {
+    final docs = await _getAllDocuments(collectionPath.path);
 
     return docs;
   }
 
-  Future<void> delete(String path) async {
-    await _db.doc(path).delete();
+  Future<bool> delete(String path) async {
+    try {
+      await _db.doc(path).delete();
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
-  Future<Document> _getDocument(String path) async {
+  Future<Document?> _getDocument(String path) async {
     final ref = await _db.doc(path).get();
     final data = ref.data();
-
+    if (data == null) {
+      return null;
+    }
     return Document(
-      data: data ?? {},
+      data: data,
       path: ref.reference.path,
     );
   }
@@ -53,7 +85,7 @@ class StorageService {
 
 class Document {
   final String path;
-  final Map<String, dynamic> data;
+  final Map<String, Object?>? data;
 
   const Document({
     required this.data,

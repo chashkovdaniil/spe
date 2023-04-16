@@ -1,4 +1,4 @@
-import '../models/professional_member.dart';
+import '../../../../models/professional_member.dart';
 
 final mockProfessionalMembers = [
   ProfessionalMember(

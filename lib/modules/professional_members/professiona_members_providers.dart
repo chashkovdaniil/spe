@@ -1,8 +1,8 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'api/professional_members_api_mock.dart';
+import '../../core/app_providers.dart';
 import 'api/professional_members_api.dart';
+import 'api/professional_members_api_firestore.dart';
 import 'domain/models/professional_members_state.dart';
 import 'domain/professional_members_manager.dart';
 import 'domain/professional_members_state_holder.dart';
@@ -11,7 +11,12 @@ class ProfessionalMemberProviders {
   const ProfessionalMemberProviders._();
 
   static final api = Provider<ProfessionalMembersApi>(
-    (_) => ProfessionalMembersApiMock(),
+    (ref) {
+      // return ProfessionalMembersApiMock();
+      return ProfessionalMembersApiFirebase(
+        ref.watch(AppProvider.storageService),
+      );
+    },
   );
 
   static final stateHolder = StateNotifierProvider<
@@ -20,9 +25,15 @@ class ProfessionalMemberProviders {
   );
 
   static final manager = Provider<ProfessionalMembersManager>(
-    (ref) => ProfessionalMembersManager(
-      ref.watch(api),
-      ref.watch(stateHolder.notifier),
-    ),
+    (ref) {
+      final manager = ProfessionalMembersManager(
+        ref.watch(api),
+        ref.watch(stateHolder.notifier),
+      );
+      manager.init();
+
+      ref.onDispose(manager.dispose);
+      return manager;
+    },
   );
 }

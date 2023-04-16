@@ -1,5 +1,5 @@
-import '../../../mock/professional_members.dart';
 import '../../../models/professional_member.dart';
+import 'mock/professional_members.dart';
 import 'professional_members_api.dart';
 
 class ProfessionalMembersApiMock extends ProfessionalMembersApi {

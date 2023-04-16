@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/professional_member.dart';
 import '../modules/professional_members/view/professional_member_page.dart';
 import '../modules/professional_members/view/professional_members_page.dart';
+import '../modules/profile/view/profile_page.dart';
 
 class NavigatorProvider {
   final key = GlobalKey<NavigatorState>();
@@ -23,19 +24,22 @@ class NavigatorProvider {
         ],
       );
     },
-    '/profile': (context) {
-      return ProfileScreen(
-        actions: [
-          SignedOutAction((context) {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/sign-in',
-              (route) => false,
-            );
-          }),
-        ],
-      );
-    }
+    ProfilePage.routeName: (context) {
+      return const ProfilePage();
+    },
+    // '/profile': (context) {
+    //   return ProfileScreen(
+    //     actions: [
+    //       SignedOutAction((context) {
+    //         Navigator.pushNamedAndRemoveUntil(
+    //           context,
+    //           '/sign-in',
+    //           (route) => false,
+    //         );
+    //       }),
+    //     ],
+    //   );
+    // }
   };
   final initialRoute = ProfessionalMembersPage.pageName;
 
@@ -51,7 +55,7 @@ class NavigatorProvider {
   }
 
   void openProfile() {
-    _state.pushNamedAndRemoveUntil('/profile', (_) => false);
+    _state.pushNamedAndRemoveUntil(ProfilePage.routeName, (_) => false);
   }
 
   void openProfessionalMembers() {

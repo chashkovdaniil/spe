@@ -7,7 +7,9 @@ abstract class ProfessionalMembersApi {
     int limit = 25,
   });
 
-  Future<ProfessionalMember> member({ProfessionalMemberApiParams? params});
+  Future<ProfessionalMember?> member({
+    required ProfessionalMemberApiParams params,
+  });
 
   Future<bool> addMember(ProfessionalMember member);
 
@@ -21,13 +23,33 @@ class ProfessionalMemberApiParams {
   final String? firstName;
   final String? lastName;
   final String? patronymic;
-  final String? primaryTechinalDiscipline;
+  final String? primaryTechnicalDiscipline;
 
   ProfessionalMemberApiParams({
     this.id,
     this.firstName,
     this.lastName,
     this.patronymic,
-    this.primaryTechinalDiscipline,
+    this.primaryTechnicalDiscipline,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': this.id,
+      'firstName': this.firstName,
+      'lastName': this.lastName,
+      'patronymic': this.patronymic,
+      'primaryTechnicalDiscipline': this.primaryTechnicalDiscipline,
+    };
+  }
+
+  factory ProfessionalMemberApiParams.fromJson(Map<String, dynamic> map) {
+    return ProfessionalMemberApiParams(
+      id: map['id'] as String,
+      firstName: map['firstName'] as String,
+      lastName: map['lastName'] as String,
+      patronymic: map['patronymic'] as String,
+      primaryTechnicalDiscipline: map['primaryTechnicalDiscipline'] as String,
+    );
+  }
 }

@@ -11,7 +11,6 @@ import 'firebase_options.dart';
 import 'modules/main/main_page.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -23,18 +22,7 @@ void main() async {
   ]);
   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
-  runApp(const MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const ProviderScope(
-      child: SPEApp(),
-    );
-  }
+  runApp(const ProviderScope(child: SPEApp()));
 }
 
 class SPEApp extends HookConsumerWidget {
@@ -47,7 +35,7 @@ class SPEApp extends HookConsumerWidget {
       manager.init();
 
       return manager.dispose;
-    });
+    }, const []);
 
     return const MaterialApp(
       home: MainPage(),

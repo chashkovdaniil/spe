@@ -14,11 +14,6 @@ class ProfessionalMembersPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final manager = ref.read(ProfessionalMemberProviders.manager);
 
-    useEffect(() {
-      manager.init();
-      return manager.dispose;
-    }, const []);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Список участников'),
