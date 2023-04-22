@@ -2,6 +2,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../models/professional_member.dart';
+import '../modules/chats/view/chats_page.dart';
 import '../modules/professional_members/view/professional_member_page.dart';
 import '../modules/professional_members/view/professional_members_page.dart';
 import '../modules/profile/view/profile_page.dart';
@@ -40,6 +41,7 @@ class NavigatorProvider {
     //     ],
     //   );
     // }
+    ChatsPage.routeName: (_) => const ChatsPage(),
   };
   final initialRoute = ProfessionalMembersPage.pageName;
 
@@ -56,6 +58,10 @@ class NavigatorProvider {
 
   void openProfile() {
     _state.pushNamedAndRemoveUntil(ProfilePage.routeName, (_) => false);
+  }
+
+  void openChats() {
+    _state.pushNamedAndRemoveUntil(ChatsPage.routeName, (_) => false);
   }
 
   void openProfessionalMembers() {

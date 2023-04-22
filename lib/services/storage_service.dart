@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum CollectionPaths {
-  users('/users');
+  users('/users'),
+  chats('/chats');
 
   final String path;
 
@@ -27,6 +28,83 @@ class StorageService {
       data: model,
       path: docPath,
     );
+  }
+
+  Future<Document?> findOne(
+    CollectionPaths collectionPath,
+    Object field, {
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    Iterable<Object?>? arrayContainsAny,
+    Iterable<Object?>? whereIn,
+    Iterable<Object?>? whereNotIn,
+    bool? isNull,
+    int? limit,
+  }) async {
+    final docs = await find(
+      collectionPath,
+      field,
+      isEqualTo: isEqualTo,
+      isNotEqualTo: isNotEqualTo,
+      isLessThan: isLessThan,
+      isLessThanOrEqualTo: isLessThanOrEqualTo,
+      isGreaterThan: isGreaterThan,
+      arrayContains: arrayContains,
+      arrayContainsAny: arrayContainsAny,
+      whereIn: whereIn,
+      whereNotIn: whereNotIn,
+      isNull: isNull,
+      limit: 1,
+    );
+    if (docs.isNotEmpty) {
+      return docs.first;
+    }
+    return null;
+  }
+
+  Future<List<Document>> find(
+    CollectionPaths collectionPath,
+    Object field, {
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    Iterable<Object?>? arrayContainsAny,
+    Iterable<Object?>? whereIn,
+    Iterable<Object?>? whereNotIn,
+    bool? isNull,
+    int? limit,
+  }) async {
+    var query = _db.collection(collectionPath.path).where(
+          field,
+          isEqualTo: isEqualTo,
+          isNotEqualTo: isNotEqualTo,
+          isLessThan: isLessThan,
+          isLessThanOrEqualTo: isLessThanOrEqualTo,
+          isGreaterThan: isGreaterThan,
+          arrayContains: arrayContains,
+          arrayContainsAny: arrayContainsAny,
+          whereIn: whereIn,
+          whereNotIn: whereNotIn,
+          isNull: isNull,
+        );
+    if (limit != null) {
+      query = query.limit(limit);
+    }
+
+    final snapshot = await query.get();
+
+    return snapshot.docs
+        .map((doc) => Document(data: doc.data(), path: doc.reference.path))
+        .toList();
   }
 
   Future<bool> update(String docPath, Map<String, Object?> model) async {

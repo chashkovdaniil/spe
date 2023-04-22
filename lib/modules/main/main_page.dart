@@ -65,6 +65,10 @@ class NaviPage extends HookConsumerWidget {
           icon: Icon(Icons.people),
           label: Text('Участники'),
         ),
+        NavigationRailDestination(
+          icon: Icon(Icons.messenger_outline_rounded),
+          label: Text('Чаты'),
+        ),
       ],
       selectedIndex: selectedIndex.value,
       onDestinationSelected: (index) {
@@ -72,6 +76,8 @@ class NaviPage extends HookConsumerWidget {
           navigatorProvider.openProfile();
         } else if (index == 1) {
           navigatorProvider.openProfessionalMembers();
+        } else if (index == 2) {
+          navigatorProvider.openChats();
         }
         selectedIndex.value = index;
       },
