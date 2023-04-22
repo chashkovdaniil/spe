@@ -33,4 +33,16 @@ class ChatsApiImpl implements ChatsApi {
     // TODO: implement sendMessage
     throw UnimplementedError();
   }
+
+  @override
+  Future<Chat> chat() {
+    // TODO: implement chat
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Chat>> chats() {
+    // TODO: implement chats
+    throw UnimplementedError();
+  }
 }

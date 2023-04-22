@@ -3,6 +3,10 @@ import '../domain/models/chat.dart';
 import '../domain/models/chat_message.dart';
 
 abstract class ChatsApi {
+  Future<List<Chat>> chats();
+
+  Future<Chat> chat();
+
   Future<void> createChat(String name, List<ProfessionalMember> members);
 
   Future<void> addMembers(Chat chat, List<ProfessionalMember> members);

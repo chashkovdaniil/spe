@@ -23,6 +23,7 @@ mixin _$Chat {
   String get name => throw _privateConstructorUsedError;
   List<ProfessionalMember> get members => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
+  List<ChatMessage> get messages => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,10 @@ abstract class $ChatCopyWith<$Res> {
       _$ChatCopyWithImpl<$Res, Chat>;
   @useResult
   $Res call(
-      {String name, List<ProfessionalMember> members, DateTime createdAt});
+      {String name,
+      List<ProfessionalMember> members,
+      DateTime createdAt,
+      List<ChatMessage> messages});
 }
 
 /// @nodoc
@@ -54,6 +58,7 @@ class _$ChatCopyWithImpl<$Res, $Val extends Chat>
     Object? name = null,
     Object? members = null,
     Object? createdAt = null,
+    Object? messages = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -68,6 +73,10 @@ class _$ChatCopyWithImpl<$Res, $Val extends Chat>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      messages: null == messages
+          ? _value.messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<ChatMessage>,
     ) as $Val);
   }
 }
@@ -79,7 +88,10 @@ abstract class _$$_ChatCopyWith<$Res> implements $ChatCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name, List<ProfessionalMember> members, DateTime createdAt});
+      {String name,
+      List<ProfessionalMember> members,
+      DateTime createdAt,
+      List<ChatMessage> messages});
 }
 
 /// @nodoc
@@ -94,6 +106,7 @@ class __$$_ChatCopyWithImpl<$Res> extends _$ChatCopyWithImpl<$Res, _$_Chat>
     Object? name = null,
     Object? members = null,
     Object? createdAt = null,
+    Object? messages = null,
   }) {
     return _then(_$_Chat(
       name: null == name
@@ -108,6 +121,10 @@ class __$$_ChatCopyWithImpl<$Res> extends _$ChatCopyWithImpl<$Res, _$_Chat>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      messages: null == messages
+          ? _value._messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<ChatMessage>,
     ));
   }
 }
@@ -118,8 +135,10 @@ class _$_Chat implements _Chat {
   const _$_Chat(
       {required this.name,
       required final List<ProfessionalMember> members,
-      required this.createdAt})
-      : _members = members;
+      required this.createdAt,
+      required final List<ChatMessage> messages})
+      : _members = members,
+        _messages = messages;
 
   factory _$_Chat.fromJson(Map<String, dynamic> json) => _$$_ChatFromJson(json);
 
@@ -135,10 +154,17 @@ class _$_Chat implements _Chat {
 
   @override
   final DateTime createdAt;
+  final List<ChatMessage> _messages;
+  @override
+  List<ChatMessage> get messages {
+    if (_messages is EqualUnmodifiableListView) return _messages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_messages);
+  }
 
   @override
   String toString() {
-    return 'Chat(name: $name, members: $members, createdAt: $createdAt)';
+    return 'Chat(name: $name, members: $members, createdAt: $createdAt, messages: $messages)';
   }
 
   @override
@@ -149,13 +175,18 @@ class _$_Chat implements _Chat {
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._members, _members) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            const DeepCollectionEquality().equals(other._messages, _messages));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name,
-      const DeepCollectionEquality().hash(_members), createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      const DeepCollectionEquality().hash(_members),
+      createdAt,
+      const DeepCollectionEquality().hash(_messages));
 
   @JsonKey(ignore: true)
   @override
@@ -175,7 +206,8 @@ abstract class _Chat implements Chat {
   const factory _Chat(
       {required final String name,
       required final List<ProfessionalMember> members,
-      required final DateTime createdAt}) = _$_Chat;
+      required final DateTime createdAt,
+      required final List<ChatMessage> messages}) = _$_Chat;
 
   factory _Chat.fromJson(Map<String, dynamic> json) = _$_Chat.fromJson;
 
@@ -185,6 +217,8 @@ abstract class _Chat implements Chat {
   List<ProfessionalMember> get members;
   @override
   DateTime get createdAt;
+  @override
+  List<ChatMessage> get messages;
   @override
   @JsonKey(ignore: true)
   _$$_ChatCopyWith<_$_Chat> get copyWith => throw _privateConstructorUsedError;
