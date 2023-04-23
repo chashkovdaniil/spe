@@ -20,8 +20,12 @@ ChatsAddState _$ChatsAddStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ChatsAddState {
-  List<ProfessionalMember> get members => throw _privateConstructorUsedError;
+  List<ProfessionalMember> get selectedMembers =>
+      throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get professionalMemberName => throw _privateConstructorUsedError;
+  List<ProfessionalMember> get filteredMembers =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +39,11 @@ abstract class $ChatsAddStateCopyWith<$Res> {
           ChatsAddState value, $Res Function(ChatsAddState) then) =
       _$ChatsAddStateCopyWithImpl<$Res, ChatsAddState>;
   @useResult
-  $Res call({List<ProfessionalMember> members, String name});
+  $Res call(
+      {List<ProfessionalMember> selectedMembers,
+      String name,
+      String professionalMemberName,
+      List<ProfessionalMember> filteredMembers});
 }
 
 /// @nodoc
@@ -51,18 +59,28 @@ class _$ChatsAddStateCopyWithImpl<$Res, $Val extends ChatsAddState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? members = null,
+    Object? selectedMembers = null,
     Object? name = null,
+    Object? professionalMemberName = null,
+    Object? filteredMembers = null,
   }) {
     return _then(_value.copyWith(
-      members: null == members
-          ? _value.members
-          : members // ignore: cast_nullable_to_non_nullable
+      selectedMembers: null == selectedMembers
+          ? _value.selectedMembers
+          : selectedMembers // ignore: cast_nullable_to_non_nullable
               as List<ProfessionalMember>,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      professionalMemberName: null == professionalMemberName
+          ? _value.professionalMemberName
+          : professionalMemberName // ignore: cast_nullable_to_non_nullable
+              as String,
+      filteredMembers: null == filteredMembers
+          ? _value.filteredMembers
+          : filteredMembers // ignore: cast_nullable_to_non_nullable
+              as List<ProfessionalMember>,
     ) as $Val);
   }
 }
@@ -75,7 +93,11 @@ abstract class _$$_ChatsAddStateCopyWith<$Res>
       __$$_ChatsAddStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<ProfessionalMember> members, String name});
+  $Res call(
+      {List<ProfessionalMember> selectedMembers,
+      String name,
+      String professionalMemberName,
+      List<ProfessionalMember> filteredMembers});
 }
 
 /// @nodoc
@@ -89,18 +111,28 @@ class __$$_ChatsAddStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? members = null,
+    Object? selectedMembers = null,
     Object? name = null,
+    Object? professionalMemberName = null,
+    Object? filteredMembers = null,
   }) {
     return _then(_$_ChatsAddState(
-      members: null == members
-          ? _value._members
-          : members // ignore: cast_nullable_to_non_nullable
+      selectedMembers: null == selectedMembers
+          ? _value._selectedMembers
+          : selectedMembers // ignore: cast_nullable_to_non_nullable
               as List<ProfessionalMember>,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      professionalMemberName: null == professionalMemberName
+          ? _value.professionalMemberName
+          : professionalMemberName // ignore: cast_nullable_to_non_nullable
+              as String,
+      filteredMembers: null == filteredMembers
+          ? _value._filteredMembers
+          : filteredMembers // ignore: cast_nullable_to_non_nullable
+              as List<ProfessionalMember>,
     ));
   }
 }
@@ -109,26 +141,39 @@ class __$$_ChatsAddStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ChatsAddState implements _ChatsAddState {
   const _$_ChatsAddState(
-      {required final List<ProfessionalMember> members, required this.name})
-      : _members = members;
+      {required final List<ProfessionalMember> selectedMembers,
+      required this.name,
+      required this.professionalMemberName,
+      required final List<ProfessionalMember> filteredMembers})
+      : _selectedMembers = selectedMembers,
+        _filteredMembers = filteredMembers;
 
   factory _$_ChatsAddState.fromJson(Map<String, dynamic> json) =>
       _$$_ChatsAddStateFromJson(json);
 
-  final List<ProfessionalMember> _members;
+  final List<ProfessionalMember> _selectedMembers;
   @override
-  List<ProfessionalMember> get members {
-    if (_members is EqualUnmodifiableListView) return _members;
+  List<ProfessionalMember> get selectedMembers {
+    if (_selectedMembers is EqualUnmodifiableListView) return _selectedMembers;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_members);
+    return EqualUnmodifiableListView(_selectedMembers);
   }
 
   @override
   final String name;
+  @override
+  final String professionalMemberName;
+  final List<ProfessionalMember> _filteredMembers;
+  @override
+  List<ProfessionalMember> get filteredMembers {
+    if (_filteredMembers is EqualUnmodifiableListView) return _filteredMembers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_filteredMembers);
+  }
 
   @override
   String toString() {
-    return 'ChatsAddState(members: $members, name: $name)';
+    return 'ChatsAddState(selectedMembers: $selectedMembers, name: $name, professionalMemberName: $professionalMemberName, filteredMembers: $filteredMembers)';
   }
 
   @override
@@ -136,14 +181,23 @@ class _$_ChatsAddState implements _ChatsAddState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ChatsAddState &&
-            const DeepCollectionEquality().equals(other._members, _members) &&
-            (identical(other.name, name) || other.name == name));
+            const DeepCollectionEquality()
+                .equals(other._selectedMembers, _selectedMembers) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.professionalMemberName, professionalMemberName) ||
+                other.professionalMemberName == professionalMemberName) &&
+            const DeepCollectionEquality()
+                .equals(other._filteredMembers, _filteredMembers));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_members), name);
+      runtimeType,
+      const DeepCollectionEquality().hash(_selectedMembers),
+      name,
+      professionalMemberName,
+      const DeepCollectionEquality().hash(_filteredMembers));
 
   @JsonKey(ignore: true)
   @override
@@ -161,16 +215,23 @@ class _$_ChatsAddState implements _ChatsAddState {
 
 abstract class _ChatsAddState implements ChatsAddState {
   const factory _ChatsAddState(
-      {required final List<ProfessionalMember> members,
-      required final String name}) = _$_ChatsAddState;
+          {required final List<ProfessionalMember> selectedMembers,
+          required final String name,
+          required final String professionalMemberName,
+          required final List<ProfessionalMember> filteredMembers}) =
+      _$_ChatsAddState;
 
   factory _ChatsAddState.fromJson(Map<String, dynamic> json) =
       _$_ChatsAddState.fromJson;
 
   @override
-  List<ProfessionalMember> get members;
+  List<ProfessionalMember> get selectedMembers;
   @override
   String get name;
+  @override
+  String get professionalMemberName;
+  @override
+  List<ProfessionalMember> get filteredMembers;
   @override
   @JsonKey(ignore: true)
   _$$_ChatsAddStateCopyWith<_$_ChatsAddState> get copyWith =>

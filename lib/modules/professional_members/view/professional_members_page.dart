@@ -12,7 +12,7 @@ class ProfessionalMembersPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final manager = ref.read(ProfessionalMemberProviders.manager);
+    final manager = ref.watch(ProfessionalMemberProviders.manager);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,10 +36,12 @@ class ProfessionalMemberListWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scrollController = useScrollController();
     final members = ref.watch(ProfessionalMemberProviders.stateHolder.select(
-      (value) => value.map(
-        (value) => value.members,
-        empty: (empty) => const <ProfessionalMember>[],
-      ),
+      (value) {
+        return value.map(
+          (value) => value.members,
+          empty: (_) => const <ProfessionalMember>[],
+        );
+      },
     ));
 
     return ListView.builder(

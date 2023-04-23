@@ -15,6 +15,7 @@ class ProfessionalMemberProviders {
       // return ProfessionalMembersApiMock();
       return ProfessionalMembersApiFirebase(
         ref.watch(AppProvider.storageService),
+        ref.watch(AppProvider.appStateHolder),
       );
     },
   );

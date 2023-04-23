@@ -34,6 +34,7 @@ _$_ProfessionalMember _$$_ProfessionalMemberFromJson(
       primaryTechinalDiscipline: json['primaryTechinalDiscipline'] as String,
       jobClassification: json['jobClassification'] as String,
       companyCategory: json['companyCategory'] as String,
+      email: json['email'] as String,
     );
 
 Map<String, dynamic> _$$_ProfessionalMemberToJson(
@@ -64,4 +65,5 @@ Map<String, dynamic> _$$_ProfessionalMemberToJson(
       'primaryTechinalDiscipline': instance.primaryTechinalDiscipline,
       'jobClassification': instance.jobClassification,
       'companyCategory': instance.companyCategory,
+      'email': instance.email,
     };

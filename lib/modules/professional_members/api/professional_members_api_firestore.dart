@@ -1,22 +1,25 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../models/app_state.dart';
 import '../../../models/professional_member.dart';
 import '../../../services/storage_service.dart';
 import 'professional_members_api.dart';
 
 class ProfessionalMembersApiFirebase extends ProfessionalMembersApi {
   final StorageService _storageService;
+  final AppState _appState;
 
   ProfessionalMembersApiFirebase(
     this._storageService,
+    this._appState,
   );
 
   @override
   Future<bool> addMember(ProfessionalMember member) async {
     await _storageService.add(
       CollectionPaths.users,
-      member.id,
       member.toJson(),
+      id: member.id,
     );
     return true;
   }
@@ -35,7 +38,6 @@ class ProfessionalMembersApiFirebase extends ProfessionalMembersApi {
     if (doc == null) {
       return null;
     }
-    print('add $docPath');
 
     return ProfessionalMember.fromDocument(doc);
   }
@@ -51,6 +53,7 @@ class ProfessionalMembersApiFirebase extends ProfessionalMembersApi {
     return docs
         .whereType<Document>()
         .map((doc) => ProfessionalMember.fromDocument(doc))
+        .where((element) => element.id != _appState.professionalMember?.id)
         .toList();
   }
 
@@ -63,7 +66,6 @@ class ProfessionalMembersApiFirebase extends ProfessionalMembersApi {
   @override
   Future<bool> updateMember(ProfessionalMember member) async {
     final docPath = '${CollectionPaths.users.path}/${member.id}';
-    print('update $docPath');
     return _storageService.update(docPath, member.toJson());
   }
 }

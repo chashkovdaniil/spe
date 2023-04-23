@@ -37,7 +37,6 @@ class AuthService {
         member = ProfessionalMember.fromUser(user);
         _professionalMembersApi.updateMember(member);
       }
-      print(member);
       _memberSubject.add(member);
     });
   }

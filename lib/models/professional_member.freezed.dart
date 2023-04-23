@@ -45,6 +45,7 @@ mixin _$ProfessionalMember {
   String get primaryTechinalDiscipline => throw _privateConstructorUsedError;
   String get jobClassification => throw _privateConstructorUsedError;
   String get companyCategory => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -83,7 +84,8 @@ abstract class $ProfessionalMemberCopyWith<$Res> {
       String primaryEmployer,
       String primaryTechinalDiscipline,
       String jobClassification,
-      String companyCategory});
+      String companyCategory,
+      String email});
 }
 
 /// @nodoc
@@ -124,6 +126,7 @@ class _$ProfessionalMemberCopyWithImpl<$Res, $Val extends ProfessionalMember>
     Object? primaryTechinalDiscipline = null,
     Object? jobClassification = null,
     Object? companyCategory = null,
+    Object? email = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -226,6 +229,10 @@ class _$ProfessionalMemberCopyWithImpl<$Res, $Val extends ProfessionalMember>
           ? _value.companyCategory
           : companyCategory // ignore: cast_nullable_to_non_nullable
               as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -263,7 +270,8 @@ abstract class _$$_ProfessionalMemberCopyWith<$Res>
       String primaryEmployer,
       String primaryTechinalDiscipline,
       String jobClassification,
-      String companyCategory});
+      String companyCategory,
+      String email});
 }
 
 /// @nodoc
@@ -302,6 +310,7 @@ class __$$_ProfessionalMemberCopyWithImpl<$Res>
     Object? primaryTechinalDiscipline = null,
     Object? jobClassification = null,
     Object? companyCategory = null,
+    Object? email = null,
   }) {
     return _then(_$_ProfessionalMember(
       id: null == id
@@ -404,6 +413,10 @@ class __$$_ProfessionalMemberCopyWithImpl<$Res>
           ? _value.companyCategory
           : companyCategory // ignore: cast_nullable_to_non_nullable
               as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -436,7 +449,8 @@ class _$_ProfessionalMember extends _ProfessionalMember {
       required this.primaryEmployer,
       required this.primaryTechinalDiscipline,
       required this.jobClassification,
-      required this.companyCategory})
+      required this.companyCategory,
+      required this.email})
       : super._();
 
   factory _$_ProfessionalMember.fromJson(Map<String, dynamic> json) =>
@@ -492,10 +506,12 @@ class _$_ProfessionalMember extends _ProfessionalMember {
   final String jobClassification;
   @override
   final String companyCategory;
+  @override
+  final String email;
 
   @override
   String toString() {
-    return 'ProfessionalMember(id: $id, firstName: $firstName, lastName: $lastName, patronymic: $patronymic, currentMember: $currentMember, yearsOfMembership: $yearsOfMembership, memberSince: $memberSince, paidThrough: $paidThrough, specialMembershipCategory: $specialMembershipCategory, newMember: $newMember, recentGrad: $recentGrad, youngProfessional: $youngProfessional, seniorProfessional: $seniorProfessional, transferFrom: $transferFrom, affiliateMember: $affiliateMember, awardRecipient: $awardRecipient, author: $author, currentOrPastVolunteer: $currentOrPastVolunteer, city: $city, state: $state, country: $country, primaryEmployer: $primaryEmployer, primaryTechinalDiscipline: $primaryTechinalDiscipline, jobClassification: $jobClassification, companyCategory: $companyCategory)';
+    return 'ProfessionalMember(id: $id, firstName: $firstName, lastName: $lastName, patronymic: $patronymic, currentMember: $currentMember, yearsOfMembership: $yearsOfMembership, memberSince: $memberSince, paidThrough: $paidThrough, specialMembershipCategory: $specialMembershipCategory, newMember: $newMember, recentGrad: $recentGrad, youngProfessional: $youngProfessional, seniorProfessional: $seniorProfessional, transferFrom: $transferFrom, affiliateMember: $affiliateMember, awardRecipient: $awardRecipient, author: $author, currentOrPastVolunteer: $currentOrPastVolunteer, city: $city, state: $state, country: $country, primaryEmployer: $primaryEmployer, primaryTechinalDiscipline: $primaryTechinalDiscipline, jobClassification: $jobClassification, companyCategory: $companyCategory, email: $email)';
   }
 
   @override
@@ -549,7 +565,8 @@ class _$_ProfessionalMember extends _ProfessionalMember {
             (identical(other.jobClassification, jobClassification) ||
                 other.jobClassification == jobClassification) &&
             (identical(other.companyCategory, companyCategory) ||
-                other.companyCategory == companyCategory));
+                other.companyCategory == companyCategory) &&
+            (identical(other.email, email) || other.email == email));
   }
 
   @JsonKey(ignore: true)
@@ -580,7 +597,8 @@ class _$_ProfessionalMember extends _ProfessionalMember {
         primaryEmployer,
         primaryTechinalDiscipline,
         jobClassification,
-        companyCategory
+        companyCategory,
+        email
       ]);
 
   @JsonKey(ignore: true)
@@ -624,7 +642,8 @@ abstract class _ProfessionalMember extends ProfessionalMember {
       required final String primaryEmployer,
       required final String primaryTechinalDiscipline,
       required final String jobClassification,
-      required final String companyCategory}) = _$_ProfessionalMember;
+      required final String companyCategory,
+      required final String email}) = _$_ProfessionalMember;
   const _ProfessionalMember._() : super._();
 
   factory _ProfessionalMember.fromJson(Map<String, dynamic> json) =
@@ -680,6 +699,8 @@ abstract class _ProfessionalMember extends ProfessionalMember {
   String get jobClassification;
   @override
   String get companyCategory;
+  @override
+  String get email;
   @override
   @JsonKey(ignore: true)
   _$$_ProfessionalMemberCopyWith<_$_ProfessionalMember> get copyWith =>

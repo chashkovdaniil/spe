@@ -27,5 +27,6 @@ final mockProfessionalMembers = [
     primaryTechinalDiscipline: 'developer',
     jobClassification: 'dev',
     companyCategory: 'asdasd',
+    email: 'email@email.com',
   ),
 ];

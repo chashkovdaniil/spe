@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -36,13 +37,14 @@ class ProfessionalMember with _$ProfessionalMember {
     required String primaryTechinalDiscipline,
     required String jobClassification,
     required String companyCategory,
+    required String email,
   }) = _ProfessionalMember;
 
   factory ProfessionalMember.fromJson(Map<String, dynamic> json) =>
       _$ProfessionalMemberFromJson(json);
 
   factory ProfessionalMember.fromDocument(Document document) {
-    final id = document.path.split('/').last;
+    final id = document.ref.path.split('/').last;
     final data = document.data;
     if (data == null) {
       throw TypeError();
@@ -83,8 +85,13 @@ class ProfessionalMember with _$ProfessionalMember {
       primaryTechinalDiscipline: 'primaryTechinalDiscipline',
       jobClassification: 'jobClassification',
       companyCategory: 'companyCategory',
+      email: user.email ?? '',
     );
   }
 
   String get fullname => '$lastName $firstName $patronymic';
+
+  DocumentReference get ref => FirebaseFirestore.instance.doc(
+        '${CollectionPaths.users.path}/$id',
+      );
 }

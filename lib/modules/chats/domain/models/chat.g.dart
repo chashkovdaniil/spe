@@ -8,12 +8,12 @@ part of 'chat.dart';
 
 _$_Chat _$$_ChatFromJson(Map<String, dynamic> json) => _$_Chat(
       name: json['name'] as String,
-      members: (json['members'] as List<dynamic>)
-          .map((e) => ProfessionalMember.fromJson(e as Map<String, dynamic>))
+      members: (json['members'] as List<dynamic>?)
+          ?.map((e) => ProfessionalMember.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdAt: DateTime.parse(json['createdAt'] as String),
-      messages: (json['messages'] as List<dynamic>)
-          .map((e) => ChatMessage.fromJson(e as Map<String, dynamic>))
+      messages: (json['messages'] as List<dynamic>?)
+          ?.map((e) => ChatMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

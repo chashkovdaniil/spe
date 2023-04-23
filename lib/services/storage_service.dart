@@ -18,15 +18,24 @@ class StorageService {
 
   Future<Document> add(
     CollectionPaths collectionPath,
-    String id,
-    Map<String, Object?> model,
-  ) async {
+    Map<String, Object?> model, {
+    String? id,
+  }) async {
+    if (id == null) {
+      final ref = await _db.collection(collectionPath.path).add(model);
+      return Document(
+        data: model,
+        ref: ref,
+      );
+    }
+
     final docPath = '${collectionPath.path}/$id';
-    await _db.doc(docPath).set(model);
+    final ref = _db.doc(docPath);
+    await ref.set(model);
 
     return Document(
       data: model,
-      path: docPath,
+      ref: ref,
     );
   }
 
@@ -103,7 +112,7 @@ class StorageService {
     final snapshot = await query.get();
 
     return snapshot.docs
-        .map((doc) => Document(data: doc.data(), path: doc.reference.path))
+        .map((doc) => Document(data: doc.data(), ref: doc.reference))
         .toList();
   }
 
@@ -137,14 +146,14 @@ class StorageService {
   }
 
   Future<Document?> _getDocument(String path) async {
-    final ref = await _db.doc(path).get();
-    final data = ref.data();
+    final snapshot = await _db.doc(path).get();
+    final data = snapshot.data();
     if (data == null) {
       return null;
     }
     return Document(
       data: data,
-      path: ref.reference.path,
+      ref: snapshot.reference,
     );
   }
 
@@ -155,18 +164,25 @@ class StorageService {
     return docs
         .map((doc) => Document(
               data: doc.data(),
-              path: doc.reference.path,
+              ref: doc.reference,
             ))
         .toList();
   }
+
+  Stream<List<Document>> stream(CollectionPaths collectionPath) => _db
+      .collection(collectionPath.path)
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+          .map((doc) => Document(data: doc.data(), ref: doc.reference))
+          .toList());
 }
 
 class Document {
-  final String path;
+  final DocumentReference ref;
   final Map<String, Object?>? data;
 
   const Document({
     required this.data,
-    required this.path,
+    required this.ref,
   });
 }

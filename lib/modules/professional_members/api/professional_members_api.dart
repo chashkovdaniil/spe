@@ -24,6 +24,7 @@ class ProfessionalMemberApiParams {
   final String? lastName;
   final String? patronymic;
   final String? primaryTechnicalDiscipline;
+  final String? email;
 
   ProfessionalMemberApiParams({
     this.id,
@@ -31,6 +32,7 @@ class ProfessionalMemberApiParams {
     this.lastName,
     this.patronymic,
     this.primaryTechnicalDiscipline,
+    this.email,
   });
 
   Map<String, dynamic> toJson() {
@@ -40,6 +42,7 @@ class ProfessionalMemberApiParams {
       'lastName': this.lastName,
       'patronymic': this.patronymic,
       'primaryTechnicalDiscipline': this.primaryTechnicalDiscipline,
+      'email': this.email,
     };
   }
 
@@ -50,6 +53,7 @@ class ProfessionalMemberApiParams {
       lastName: map['lastName'] as String,
       patronymic: map['patronymic'] as String,
       primaryTechnicalDiscipline: map['primaryTechnicalDiscipline'] as String,
+      email: map['email'] as String,
     );
   }
 }
