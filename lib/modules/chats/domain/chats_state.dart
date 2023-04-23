@@ -9,10 +9,11 @@ part 'chats_state.g.dart';
 class ChatsState with _$ChatsState {
   const factory ChatsState({
     required List<Chat> chats,
+    required Chat? chat,
   }) = _ChatsState;
 
   factory ChatsState.fromJson(Map<String, dynamic> json) =>
       _$ChatsStateFromJson(json);
 
-  factory ChatsState.empty() => const ChatsState(chats: []);
+  factory ChatsState.empty() => const ChatsState(chats: [], chat: null);
 }

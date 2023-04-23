@@ -7,6 +7,7 @@ part of 'chat.dart';
 // **************************************************************************
 
 _$_Chat _$$_ChatFromJson(Map<String, dynamic> json) => _$_Chat(
+      id: json['id'] as String,
       name: json['name'] as String,
       members: (json['members'] as List<dynamic>?)
           ?.map((e) => ProfessionalMember.fromJson(e as Map<String, dynamic>))
@@ -18,6 +19,7 @@ _$_Chat _$$_ChatFromJson(Map<String, dynamic> json) => _$_Chat(
     );
 
 Map<String, dynamic> _$$_ChatToJson(_$_Chat instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'members': instance.members,
       'createdAt': instance.createdAt.toIso8601String(),

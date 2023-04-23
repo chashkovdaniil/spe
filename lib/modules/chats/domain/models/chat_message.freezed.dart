@@ -20,6 +20,7 @@ ChatMessage _$ChatMessageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ChatMessage {
+  String get id => throw _privateConstructorUsedError;
   DateTime get sentAt => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
   ProfessionalMember get sender => throw _privateConstructorUsedError;
@@ -36,7 +37,8 @@ abstract class $ChatMessageCopyWith<$Res> {
           ChatMessage value, $Res Function(ChatMessage) then) =
       _$ChatMessageCopyWithImpl<$Res, ChatMessage>;
   @useResult
-  $Res call({DateTime sentAt, String message, ProfessionalMember sender});
+  $Res call(
+      {String id, DateTime sentAt, String message, ProfessionalMember sender});
 
   $ProfessionalMemberCopyWith<$Res> get sender;
 }
@@ -54,11 +56,16 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? sentAt = null,
     Object? message = null,
     Object? sender = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       sentAt: null == sentAt
           ? _value.sentAt
           : sentAt // ignore: cast_nullable_to_non_nullable
@@ -91,7 +98,8 @@ abstract class _$$_ChatMessageCopyWith<$Res>
       __$$_ChatMessageCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime sentAt, String message, ProfessionalMember sender});
+  $Res call(
+      {String id, DateTime sentAt, String message, ProfessionalMember sender});
 
   @override
   $ProfessionalMemberCopyWith<$Res> get sender;
@@ -108,11 +116,16 @@ class __$$_ChatMessageCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? sentAt = null,
     Object? message = null,
     Object? sender = null,
   }) {
     return _then(_$_ChatMessage(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       sentAt: null == sentAt
           ? _value.sentAt
           : sentAt // ignore: cast_nullable_to_non_nullable
@@ -133,11 +146,16 @@ class __$$_ChatMessageCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ChatMessage implements _ChatMessage {
   const _$_ChatMessage(
-      {required this.sentAt, required this.message, required this.sender});
+      {required this.id,
+      required this.sentAt,
+      required this.message,
+      required this.sender});
 
   factory _$_ChatMessage.fromJson(Map<String, dynamic> json) =>
       _$$_ChatMessageFromJson(json);
 
+  @override
+  final String id;
   @override
   final DateTime sentAt;
   @override
@@ -147,7 +165,7 @@ class _$_ChatMessage implements _ChatMessage {
 
   @override
   String toString() {
-    return 'ChatMessage(sentAt: $sentAt, message: $message, sender: $sender)';
+    return 'ChatMessage(id: $id, sentAt: $sentAt, message: $message, sender: $sender)';
   }
 
   @override
@@ -155,6 +173,7 @@ class _$_ChatMessage implements _ChatMessage {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ChatMessage &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.sentAt, sentAt) || other.sentAt == sentAt) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.sender, sender) || other.sender == sender));
@@ -162,7 +181,7 @@ class _$_ChatMessage implements _ChatMessage {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, sentAt, message, sender);
+  int get hashCode => Object.hash(runtimeType, id, sentAt, message, sender);
 
   @JsonKey(ignore: true)
   @override
@@ -180,13 +199,16 @@ class _$_ChatMessage implements _ChatMessage {
 
 abstract class _ChatMessage implements ChatMessage {
   const factory _ChatMessage(
-      {required final DateTime sentAt,
+      {required final String id,
+      required final DateTime sentAt,
       required final String message,
       required final ProfessionalMember sender}) = _$_ChatMessage;
 
   factory _ChatMessage.fromJson(Map<String, dynamic> json) =
       _$_ChatMessage.fromJson;
 
+  @override
+  String get id;
   @override
   DateTime get sentAt;
   @override

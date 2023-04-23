@@ -8,6 +8,7 @@ part 'chat_message.g.dart';
 @freezed
 class ChatMessage with _$ChatMessage {
   const factory ChatMessage({
+    required String id,
     required DateTime sentAt,
     required String message,
     required ProfessionalMember sender,

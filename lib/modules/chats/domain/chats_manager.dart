@@ -43,8 +43,19 @@ class ChatsManager with InitialDisposableMixin {
     await _chatsApi.createChat(addState.name, addState.selectedMembers);
   }
 
+  Future<void> selectChat(Chat selectedChat) async {
+    final chat = await _chatsApi.chat(id: selectedChat.id);
+
+    if (chat == null) {
+      return;
+    }
+
+    _chatsStateHolder.setChat(chat);
+  }
+
   @override
   Future<void> dispose() async {
     _chatsStateHolder.clear();
+    super.dispose();
   }
 }

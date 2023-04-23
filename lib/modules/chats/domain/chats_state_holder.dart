@@ -10,5 +10,7 @@ class ChatsStateHolder extends StateNotifier<ChatsState> {
 
   void setChats(List<Chat> chats) => state = state.copyWith(chats: chats);
 
+  void setChat(Chat chat) => state = state.copyWith(chat: chat);
+
   void clear() => state = ChatsState.empty();
 }

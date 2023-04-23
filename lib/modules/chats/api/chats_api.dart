@@ -5,7 +5,7 @@ import '../domain/models/chat_message.dart';
 abstract class ChatsApi {
   Future<List<Chat>> chats();
 
-  Future<Chat> chat();
+  Future<Chat?> chat({String? id});
 
   Future<void> createChat(String name, List<ProfessionalMember> members);
 

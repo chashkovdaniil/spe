@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:uuid/uuid.dart';
+
+const uuid = Uuid();
 
 mixin InitialDisposableMixin {
   final _subs = <StreamSubscription<Object?>>[];

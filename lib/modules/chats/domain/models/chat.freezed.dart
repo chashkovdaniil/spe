@@ -20,6 +20,7 @@ Chat _$ChatFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Chat {
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   List<ProfessionalMember>? get members => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -36,7 +37,8 @@ abstract class $ChatCopyWith<$Res> {
       _$ChatCopyWithImpl<$Res, Chat>;
   @useResult
   $Res call(
-      {String name,
+      {String id,
+      String name,
       List<ProfessionalMember>? members,
       DateTime createdAt,
       List<ChatMessage>? messages});
@@ -55,12 +57,17 @@ class _$ChatCopyWithImpl<$Res, $Val extends Chat>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? members = freezed,
     Object? createdAt = null,
     Object? messages = freezed,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -88,7 +95,8 @@ abstract class _$$_ChatCopyWith<$Res> implements $ChatCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name,
+      {String id,
+      String name,
       List<ProfessionalMember>? members,
       DateTime createdAt,
       List<ChatMessage>? messages});
@@ -103,12 +111,17 @@ class __$$_ChatCopyWithImpl<$Res> extends _$ChatCopyWithImpl<$Res, _$_Chat>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? members = freezed,
     Object? createdAt = null,
     Object? messages = freezed,
   }) {
     return _then(_$_Chat(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -133,7 +146,8 @@ class __$$_ChatCopyWithImpl<$Res> extends _$ChatCopyWithImpl<$Res, _$_Chat>
 @JsonSerializable()
 class _$_Chat implements _Chat {
   const _$_Chat(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required final List<ProfessionalMember>? members,
       required this.createdAt,
       required final List<ChatMessage>? messages})
@@ -142,6 +156,8 @@ class _$_Chat implements _Chat {
 
   factory _$_Chat.fromJson(Map<String, dynamic> json) => _$$_ChatFromJson(json);
 
+  @override
+  final String id;
   @override
   final String name;
   final List<ProfessionalMember>? _members;
@@ -168,7 +184,7 @@ class _$_Chat implements _Chat {
 
   @override
   String toString() {
-    return 'Chat(name: $name, members: $members, createdAt: $createdAt, messages: $messages)';
+    return 'Chat(id: $id, name: $name, members: $members, createdAt: $createdAt, messages: $messages)';
   }
 
   @override
@@ -176,6 +192,7 @@ class _$_Chat implements _Chat {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Chat &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._members, _members) &&
             (identical(other.createdAt, createdAt) ||
@@ -187,6 +204,7 @@ class _$_Chat implements _Chat {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       name,
       const DeepCollectionEquality().hash(_members),
       createdAt,
@@ -208,13 +226,16 @@ class _$_Chat implements _Chat {
 
 abstract class _Chat implements Chat {
   const factory _Chat(
-      {required final String name,
+      {required final String id,
+      required final String name,
       required final List<ProfessionalMember>? members,
       required final DateTime createdAt,
       required final List<ChatMessage>? messages}) = _$_Chat;
 
   factory _Chat.fromJson(Map<String, dynamic> json) = _$_Chat.fromJson;
 
+  @override
+  String get id;
   @override
   String get name;
   @override

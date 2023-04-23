@@ -21,6 +21,7 @@ ChatsState _$ChatsStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ChatsState {
   List<Chat> get chats => throw _privateConstructorUsedError;
+  Chat? get chat => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,9 @@ abstract class $ChatsStateCopyWith<$Res> {
           ChatsState value, $Res Function(ChatsState) then) =
       _$ChatsStateCopyWithImpl<$Res, ChatsState>;
   @useResult
-  $Res call({List<Chat> chats});
+  $Res call({List<Chat> chats, Chat? chat});
+
+  $ChatCopyWith<$Res>? get chat;
 }
 
 /// @nodoc
@@ -51,13 +54,30 @@ class _$ChatsStateCopyWithImpl<$Res, $Val extends ChatsState>
   @override
   $Res call({
     Object? chats = null,
+    Object? chat = freezed,
   }) {
     return _then(_value.copyWith(
       chats: null == chats
           ? _value.chats
           : chats // ignore: cast_nullable_to_non_nullable
               as List<Chat>,
+      chat: freezed == chat
+          ? _value.chat
+          : chat // ignore: cast_nullable_to_non_nullable
+              as Chat?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatCopyWith<$Res>? get chat {
+    if (_value.chat == null) {
+      return null;
+    }
+
+    return $ChatCopyWith<$Res>(_value.chat!, (value) {
+      return _then(_value.copyWith(chat: value) as $Val);
+    });
   }
 }
 
@@ -69,7 +89,10 @@ abstract class _$$_ChatsStateCopyWith<$Res>
       __$$_ChatsStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Chat> chats});
+  $Res call({List<Chat> chats, Chat? chat});
+
+  @override
+  $ChatCopyWith<$Res>? get chat;
 }
 
 /// @nodoc
@@ -84,12 +107,17 @@ class __$$_ChatsStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? chats = null,
+    Object? chat = freezed,
   }) {
     return _then(_$_ChatsState(
       chats: null == chats
           ? _value._chats
           : chats // ignore: cast_nullable_to_non_nullable
               as List<Chat>,
+      chat: freezed == chat
+          ? _value.chat
+          : chat // ignore: cast_nullable_to_non_nullable
+              as Chat?,
     ));
   }
 }
@@ -97,7 +125,8 @@ class __$$_ChatsStateCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_ChatsState implements _ChatsState {
-  const _$_ChatsState({required final List<Chat> chats}) : _chats = chats;
+  const _$_ChatsState({required final List<Chat> chats, required this.chat})
+      : _chats = chats;
 
   factory _$_ChatsState.fromJson(Map<String, dynamic> json) =>
       _$$_ChatsStateFromJson(json);
@@ -111,8 +140,11 @@ class _$_ChatsState implements _ChatsState {
   }
 
   @override
+  final Chat? chat;
+
+  @override
   String toString() {
-    return 'ChatsState(chats: $chats)';
+    return 'ChatsState(chats: $chats, chat: $chat)';
   }
 
   @override
@@ -120,13 +152,14 @@ class _$_ChatsState implements _ChatsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ChatsState &&
-            const DeepCollectionEquality().equals(other._chats, _chats));
+            const DeepCollectionEquality().equals(other._chats, _chats) &&
+            (identical(other.chat, chat) || other.chat == chat));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_chats));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_chats), chat);
 
   @JsonKey(ignore: true)
   @override
@@ -143,13 +176,17 @@ class _$_ChatsState implements _ChatsState {
 }
 
 abstract class _ChatsState implements ChatsState {
-  const factory _ChatsState({required final List<Chat> chats}) = _$_ChatsState;
+  const factory _ChatsState(
+      {required final List<Chat> chats,
+      required final Chat? chat}) = _$_ChatsState;
 
   factory _ChatsState.fromJson(Map<String, dynamic> json) =
       _$_ChatsState.fromJson;
 
   @override
   List<Chat> get chats;
+  @override
+  Chat? get chat;
   @override
   @JsonKey(ignore: true)
   _$$_ChatsStateCopyWith<_$_ChatsState> get copyWith =>

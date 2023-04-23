@@ -95,3 +95,23 @@ class ProfessionalMember with _$ProfessionalMember {
         '${CollectionPaths.users.path}/$id',
       );
 }
+
+extension ProfessionMemberX on List<DocumentReference> {
+  Future<List<ProfessionalMember>> toProfessionalMembers() async {
+    final members = <ProfessionalMember>[];
+    final membersRef = this as List<DocumentReference<Map<String, Object?>>>;
+
+    for (final memberRef in membersRef) {
+      final snapshot = await memberRef.get();
+      final data = snapshot.data();
+
+      if (data == null) {
+        throw StateError('Member is null');
+      }
+
+      members.add(ProfessionalMember.fromJson(data));
+    }
+
+    return members;
+  }
+}

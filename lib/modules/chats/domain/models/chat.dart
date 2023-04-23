@@ -10,6 +10,7 @@ part 'chat.g.dart';
 @freezed
 class Chat with _$Chat {
   const factory Chat({
+    required String id,
     required String name,
     required List<ProfessionalMember>? members,
     required DateTime createdAt,

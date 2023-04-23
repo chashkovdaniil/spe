@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../../core/utils.dart';
 import '../../../models/app_state.dart';
 import '../../../models/professional_member.dart';
 import '../../../services/storage_service.dart';
@@ -26,6 +29,7 @@ class ChatsApiImpl implements ChatsApi {
     }
 
     final chat = Chat(
+      id: uuid.v4(),
       name: name,
       members: [currentMember, ...members],
       createdAt: DateTime.now(),
@@ -33,7 +37,7 @@ class ChatsApiImpl implements ChatsApi {
     );
     final chatAsJson = chat.toJson();
     chatAsJson['members'] = chat.members?.map((e) => e.ref);
-    await _storageService.add(CollectionPaths.chats, chatAsJson);
+    await _storageService.add(CollectionPaths.chats, id: chat.id, chatAsJson);
   }
 
   @override
@@ -55,9 +59,27 @@ class ChatsApiImpl implements ChatsApi {
   }
 
   @override
-  Future<Chat> chat() {
-    // TODO: implement chat
-    throw UnimplementedError();
+  Future<Chat?> chat({String? id}) async {
+    final currentMember = _appState.professionalMember;
+    if (currentMember == null) {
+      throw StateError('Current user is null');
+    }
+
+    final doc = await _storageService.findOne(
+      CollectionPaths.chats,
+      'members',
+      arrayContains: currentMember.ref,
+    );
+    final data = doc?.data;
+
+    if (data == null) {
+      return null;
+    }
+
+    data['members'] =
+        (data['members'] as List<DocumentReference>).toProfessionalMembers();
+
+    return Chat.fromJson(data);
   }
 
   @override
