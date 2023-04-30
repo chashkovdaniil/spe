@@ -17,7 +17,7 @@ class ProfessionalMembersApiFirebase extends ProfessionalMembersApi {
   @override
   Future<bool> addMember(ProfessionalMember member) async {
     await _storageService.add(
-      CollectionPaths.users,
+      CollectionPaths.users.path,
       member.toJson(),
       id: member.id,
     );

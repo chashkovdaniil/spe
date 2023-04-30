@@ -18,4 +18,6 @@ abstract class ChatsApi {
   Future<void> deleteChat(String name, List<ProfessionalMember> members);
 
   Stream<List<Chat>> get chatsStream;
+
+  Stream<List<ChatMessage>> messagesStream(String chatId);
 }

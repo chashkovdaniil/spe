@@ -37,7 +37,8 @@ class ChatsApiImpl implements ChatsApi {
     );
     final chatAsJson = chat.toJson();
     chatAsJson['members'] = chat.members?.map((e) => e.ref);
-    await _storageService.add(CollectionPaths.chats, id: chat.id, chatAsJson);
+    await _storageService.add(
+        CollectionPaths.chats.path, id: chat.id, chatAsJson);
   }
 
   @override
@@ -53,9 +54,13 @@ class ChatsApiImpl implements ChatsApi {
   }
 
   @override
-  Future<void> sendMessage(Chat chat, ChatMessage message) {
-    // TODO: implement sendMessage
-    throw UnimplementedError();
+  Future<void> sendMessage(Chat chat, ChatMessage message) async {
+    final path = '${CollectionPaths.chats.path}/${chat.id}'
+        '${CollectionPaths.chatMessages.path}';
+
+    final messageAsJson = message.toJson();
+    messageAsJson['sender'] = message.sender.ref;
+    await _storageService.add(path, messageAsJson, id: message.id);
   }
 
   @override
@@ -65,11 +70,7 @@ class ChatsApiImpl implements ChatsApi {
       throw StateError('Current user is null');
     }
 
-    final doc = await _storageService.findOne(
-      CollectionPaths.chats,
-      'members',
-      arrayContains: currentMember.ref,
-    );
+    final doc = await _storageService.get('${CollectionPaths.chats.path}/$id');
     final data = doc?.data;
 
     if (data == null) {
@@ -115,7 +116,7 @@ class ChatsApiImpl implements ChatsApi {
 
     return _storageService
         .streamWhere(
-          CollectionPaths.chats,
+          CollectionPaths.chats.path,
           'members',
           arrayContains: currentMember.ref,
         )
@@ -125,5 +126,35 @@ class ChatsApiImpl implements ChatsApi {
 
               return Chat.fromDocument(doc);
             }).toList());
+  }
+
+  @override
+  Stream<List<ChatMessage>> messagesStream(String chatId) {
+    final currentMember = _appState.professionalMember;
+    if (currentMember == null) {
+      throw StateError('Current user is null');
+    }
+
+    return _storageService
+        .stream(
+      '${CollectionPaths.chats.path}/$chatId'
+      '${CollectionPaths.chatMessages.path}',
+      orderByField: 'sentAt',
+    )
+        .asyncMap((documents) async {
+      final messages = <ChatMessage>[];
+      for (final doc in documents) {
+        final data = doc.data;
+        if (data == null) {
+          throw StateError('Firstore has null value');
+        }
+        final senderRef = data['sender'] as DocumentReference;
+        final senderSnapshot = await senderRef.get();
+        data['sender'] = senderSnapshot.data() as Map<String, Object?>;
+        messages.add(ChatMessage.fromJson(data));
+      }
+
+      return messages;
+    });
   }
 }

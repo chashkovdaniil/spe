@@ -35,6 +35,10 @@ class ChatsProviders {
         ref.watch(api),
         ref.watch(addStateHolder.notifier),
         ref.watch(stateHolder.notifier),
+        ref.watch(
+          AppProvider.appStateHolder
+              .select((state) => state.professionalMember),
+        ),
       );
       ref.onDispose(() {
         manager.dispose();

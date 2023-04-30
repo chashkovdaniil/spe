@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum CollectionPaths {
   users('/users'),
-  chats('/chats');
+  chats('/chats'),
+  chatMessages('/messages');
 
   final String path;
 
@@ -17,19 +18,19 @@ class StorageService {
   }
 
   Future<Document> add(
-    CollectionPaths collectionPath,
+    String collectionPath,
     Map<String, Object?> model, {
     String? id,
   }) async {
     if (id == null) {
-      final ref = await _db.collection(collectionPath.path).add(model);
+      final ref = await _db.collection(collectionPath).add(model);
       return Document(
         data: model,
         ref: ref,
       );
     }
 
-    final docPath = '${collectionPath.path}/$id';
+    final docPath = '$collectionPath/$id';
     final ref = _db.doc(docPath);
     await ref.set(model);
 
@@ -169,15 +170,27 @@ class StorageService {
         .toList();
   }
 
-  Stream<List<Document>> stream(CollectionPaths collectionPath) => _db
-      .collection(collectionPath.path)
-      .snapshots()
-      .map((snapshot) => snapshot.docs
-          .map((doc) => Document(data: doc.data(), ref: doc.reference))
-          .toList());
+  Stream<List<Document>> stream(
+    String collectionPath, {
+    String? orderByField,
+    bool descending = true,
+  }) {
+    final collectionRef = _db.collection(collectionPath);
+    Query? query;
+    if (orderByField != null) {
+      query = collectionRef.orderBy(orderByField, descending: descending);
+    }
+    return (query ?? collectionRef)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) {
+              final data = doc.data() as Map<String, Object?>;
+
+              return Document(data: data, ref: doc.reference);
+            }).toList());
+  }
 
   Stream<List<Document>> streamWhere(
-    CollectionPaths collectionPath,
+    String collectionPath,
     Object field, {
     Object? isEqualTo,
     Object? isNotEqualTo,
@@ -193,7 +206,7 @@ class StorageService {
     int? limit,
   }) =>
       _db
-          .collection(collectionPath.path)
+          .collection(collectionPath)
           .where(
             field,
             isEqualTo: isEqualTo,
@@ -215,12 +228,9 @@ class StorageService {
           );
 }
 
-class Document {
+class Document<T> {
   final DocumentReference ref;
   final Map<String, Object?>? data;
 
-  const Document({
-    required this.data,
-    required this.ref,
-  });
+  const Document({required this.data, required this.ref});
 }
