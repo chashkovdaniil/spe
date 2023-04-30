@@ -96,12 +96,13 @@ class ProfessionalMember with _$ProfessionalMember {
       );
 }
 
-extension ProfessionMemberX on List<DocumentReference> {
-  Future<List<ProfessionalMember>> toProfessionalMembers() async {
-    final members = <ProfessionalMember>[];
-    final membersRef = this as List<DocumentReference<Map<String, Object?>>>;
+extension ProfessionMemberX on List<Object?> {
+  Future<List<Map<String, Object?>>> toProfessionalMembersJson() async {
+    final members = <Map<String, Object?>>[];
+    final membersRef = this;
 
-    for (final memberRef in membersRef) {
+    for (final ref in membersRef) {
+      final memberRef = ref as DocumentReference<Map<String, Object?>>;
       final snapshot = await memberRef.get();
       final data = snapshot.data();
 
@@ -109,7 +110,7 @@ extension ProfessionMemberX on List<DocumentReference> {
         throw StateError('Member is null');
       }
 
-      members.add(ProfessionalMember.fromJson(data));
+      members.add(data);
     }
 
     return members;

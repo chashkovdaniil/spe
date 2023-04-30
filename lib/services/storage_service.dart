@@ -175,6 +175,44 @@ class StorageService {
       .map((snapshot) => snapshot.docs
           .map((doc) => Document(data: doc.data(), ref: doc.reference))
           .toList());
+
+  Stream<List<Document>> streamWhere(
+    CollectionPaths collectionPath,
+    Object field, {
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    Iterable<Object?>? arrayContainsAny,
+    Iterable<Object?>? whereIn,
+    Iterable<Object?>? whereNotIn,
+    bool? isNull,
+    int? limit,
+  }) =>
+      _db
+          .collection(collectionPath.path)
+          .where(
+            field,
+            isEqualTo: isEqualTo,
+            isNotEqualTo: isNotEqualTo,
+            isLessThan: isLessThan,
+            isLessThanOrEqualTo: isLessThanOrEqualTo,
+            isGreaterThan: isGreaterThan,
+            arrayContains: arrayContains,
+            arrayContainsAny: arrayContainsAny,
+            whereIn: whereIn,
+            whereNotIn: whereNotIn,
+            isNull: isNull,
+          )
+          .snapshots()
+          .map(
+            (snapshot) => snapshot.docs
+                .map((doc) => Document(data: doc.data(), ref: doc.reference))
+                .toList(),
+          );
 }
 
 class Document {

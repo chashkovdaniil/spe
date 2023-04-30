@@ -75,9 +75,9 @@ class ChatsApiImpl implements ChatsApi {
     if (data == null) {
       return null;
     }
+    final members = data['members'] as List<Object?>;
 
-    data['members'] =
-        (data['members'] as List<DocumentReference>).toProfessionalMembers();
+    data['members'] = await members.toProfessionalMembersJson();
 
     return Chat.fromJson(data);
   }
@@ -107,12 +107,23 @@ class ChatsApiImpl implements ChatsApi {
   }
 
   @override
-  Stream<List<Chat>> get chatsStream => _storageService
-      .stream(CollectionPaths.chats)
-      .map((documents) => documents.map((doc) {
-            doc.data?['members'] = null;
-            doc.data?['messages'] = null;
+  Stream<List<Chat>> get chatsStream {
+    final currentMember = _appState.professionalMember;
+    if (currentMember == null) {
+      throw StateError('Current user is null');
+    }
 
-            return Chat.fromDocument(doc);
-          }).toList());
+    return _storageService
+        .streamWhere(
+          CollectionPaths.chats,
+          'members',
+          arrayContains: currentMember.ref,
+        )
+        .map((documents) => documents.map((doc) {
+              doc.data?['members'] = null;
+              doc.data?['messages'] = null;
+
+              return Chat.fromDocument(doc);
+            }).toList());
+  }
 }

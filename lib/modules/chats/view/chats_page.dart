@@ -54,7 +54,7 @@ class _ChatsList extends ConsumerWidget {
             (chat) => ListTile(
               title: Text(chat.name),
               onTap: () {
-                ref.read(AppProvider.navigatorProvider).openChat();
+                ref.read(AppProvider.navigatorProvider).openChat(chat);
               },
             ),
           )

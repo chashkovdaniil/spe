@@ -2,6 +2,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../models/professional_member.dart';
+import '../modules/chats/domain/models/chat.dart';
 import '../modules/chats/view/chat_page.dart';
 import '../modules/chats/view/chats_page.dart';
 import '../modules/professional_members/view/professional_member_page.dart';
@@ -76,5 +77,8 @@ class NavigatorProvider {
         (_) => false,
       );
 
-  void openChat() => _state.pushNamed(ChatPage.routeName);
+  void openChat(Chat chat) => _state.pushNamed(
+        ChatPage.routeName,
+        arguments: chat,
+      );
 }
