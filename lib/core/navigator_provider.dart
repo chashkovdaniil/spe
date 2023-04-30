@@ -75,4 +75,6 @@ class NavigatorProvider {
         ProfessionalMembersPage.pageName,
         (_) => false,
       );
+
+  void openChat() => _state.pushNamed(ChatPage.routeName);
 }

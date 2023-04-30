@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../core/app_providers.dart';
 import '../chats_providers.dart';
 import 'chats_add_dialog.dart';
 
@@ -50,7 +51,12 @@ class _ChatsList extends ConsumerWidget {
     return ListView(
       children: chats
           .map(
-            (e) => ListTile(title: Text(e.name)),
+            (chat) => ListTile(
+              title: Text(chat.name),
+              onTap: () {
+                ref.read(AppProvider.navigatorProvider).openChat();
+              },
+            ),
           )
           .toList(),
     );
