@@ -26,8 +26,9 @@ class ChatsPage extends HookConsumerWidget {
         title: Text('Чаты'),
       ),
       body: const _ChatsList(),
-      floatingActionButton: FloatingActionButton(
-        child: Text('Создать'),
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text('Создать'),
+        icon: Icon(Icons.add),
         onPressed: () {
           showDialog(
             context: context,

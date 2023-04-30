@@ -7,42 +7,47 @@ import '../modules/professional_members/view/professional_member_page.dart';
 import '../modules/professional_members/view/professional_members_page.dart';
 import '../modules/profile/view/profile_page.dart';
 
+typedef RouteBuilder = Widget Function(BuildContext context);
+
 class NavigatorProvider {
   final key = GlobalKey<NavigatorState>();
 
   NavigatorState get _state => key.currentState as NavigatorState;
 
-  final routes = {
-    ProfessionalMembersPage.pageName: (_) => const ProfessionalMembersPage(),
-    ProfessionalMemberPage.pageName: (_) => const ProfessionalMemberPage(),
-    '/sign-in': (context) {
-      return SignInScreen(
-        actions: [
-          AuthStateChangeAction<SignedIn>((context, state) {
-            Navigator.pushReplacementNamed(
-                context, ProfessionalMembersPage.pageName);
-          }),
-        ],
-      );
-    },
-    ProfilePage.routeName: (context) {
-      return const ProfilePage();
-    },
-    // '/profile': (context) {
-    //   return ProfileScreen(
-    //     actions: [
-    //       SignedOutAction((context) {
-    //         Navigator.pushNamedAndRemoveUntil(
-    //           context,
-    //           '/sign-in',
-    //           (route) => false,
-    //         );
-    //       }),
-    //     ],
-    //   );
-    // }
-    ChatsPage.routeName: (_) => const ChatsPage(),
-  };
+  Map<String, RouteBuilder> get routes => {
+        ProfessionalMembersPage.pageName: (_) =>
+            const ProfessionalMembersPage(),
+        ProfessionalMemberPage.pageName: (_) => const ProfessionalMemberPage(),
+        '/sign-in': (context) {
+          return SignInScreen(
+            actions: [
+              AuthStateChangeAction<SignedIn>(
+                (_, __) => openProfessionalMembers(),
+              ),
+              AuthStateChangeAction<UserCreated>(
+                (_, __) => openProfessionalMembers(),
+              ),
+            ],
+          );
+        },
+        ProfilePage.routeName: (context) {
+          return const ProfilePage();
+        },
+        // '/profile': (context) {
+        //   return ProfileScreen(
+        //     actions: [
+        //       SignedOutAction((context) {
+        //         Navigator.pushNamedAndRemoveUntil(
+        //           context,
+        //           '/sign-in',
+        //           (route) => false,
+        //         );
+        //       }),
+        //     ],
+        //   );
+        // }
+        ChatsPage.routeName: (_) => const ChatsPage(),
+      };
   final initialRoute = ProfessionalMembersPage.pageName;
 
   void openSignIn() {
