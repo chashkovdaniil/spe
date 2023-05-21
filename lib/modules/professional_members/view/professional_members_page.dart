@@ -19,7 +19,7 @@ class ProfessionalMembersPage extends HookConsumerWidget {
         title: const Text('Список участников'),
       ),
       body: ProfessionalMemberListWidget(
-        onTapLoadMore: () => manager.load(),
+        onTapLoadMore: () {},
       ),
     );
   }

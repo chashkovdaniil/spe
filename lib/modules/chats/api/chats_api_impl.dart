@@ -157,4 +157,27 @@ class ChatsApiImpl implements ChatsApi {
       return messages;
     });
   }
+
+  @override
+  Future<List<Chat>> allChats() async {
+    final currentMember = _appState.professionalMember;
+    if (currentMember == null) {
+      throw StateError('Current user is null');
+    }
+
+    final docs = await _storageService.find(
+      CollectionPaths.chats,
+      'members',
+    );
+
+    return docs.map((doc) {
+      doc.data?['members'] = null;
+      doc.data?['messages'] = null;
+
+      if (doc.data == null) {
+        throw StateError('Chat is null');
+      }
+      return Chat.fromDocument(doc);
+    }).toList();
+  }
 }

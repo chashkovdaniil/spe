@@ -7,6 +7,8 @@ import '../services/storage_service.dart';
 part 'professional_member.freezed.dart';
 part 'professional_member.g.dart';
 
+enum ProfessionalMemberRoles { user, admin }
+
 @freezed
 class ProfessionalMember with _$ProfessionalMember {
   const ProfessionalMember._();
@@ -38,6 +40,7 @@ class ProfessionalMember with _$ProfessionalMember {
     required String jobClassification,
     required String companyCategory,
     required String email,
+    @Default(ProfessionalMemberRoles.user) ProfessionalMemberRoles role,
   }) = _ProfessionalMember;
 
   factory ProfessionalMember.fromJson(Map<String, dynamic> json) =>

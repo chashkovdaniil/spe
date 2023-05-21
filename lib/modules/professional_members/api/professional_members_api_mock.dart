@@ -25,6 +25,15 @@ class ProfessionalMembersApiMock extends ProfessionalMembersApi {
   }
 
   @override
+  Stream<List<ProfessionalMember>> membersStream({
+    ProfessionalMemberApiParams? params,
+    int page = 1,
+    int limit = 25,
+  }) {
+    return Stream.value(mockProfessionalMembers);
+  }
+
+  @override
   Future<bool> removeMember(ProfessionalMember member) {
     // TODO: implement removeMember
     throw UnimplementedError();

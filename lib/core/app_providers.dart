@@ -9,7 +9,9 @@ import 'navigator_provider.dart';
 import 'state/app_state_holder.dart';
 
 class AppProvider {
-  static final navigatorProvider = Provider((_) => NavigatorProvider());
+  static final navigatorProvider = Provider((ref) => NavigatorProvider(
+        ref.watch(appStateHolder).professionalMember,
+      ));
   static final authService = Provider(
     (ref) => AuthService(
       ref.watch(ProfessionalMemberProviders.api),

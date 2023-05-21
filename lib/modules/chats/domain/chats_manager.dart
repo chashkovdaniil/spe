@@ -32,7 +32,12 @@ class ChatsManager with InitialDisposableMixin {
     if (isInited) {
       return;
     }
-    final chats = await _chatsApi.chats();
+    List<Chat> chats;
+    if (_currentUser?.role == ProfessionalMemberRoles.admin) {
+      chats = await _chatsApi.allChats();
+    } else {
+      chats = await _chatsApi.chats();
+    }
     _chatsStateHolder.setChats(chats);
     super.init();
   }

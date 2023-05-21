@@ -7,6 +7,12 @@ abstract class ProfessionalMembersApi {
     int limit = 25,
   });
 
+  Stream<List<ProfessionalMember>> membersStream({
+    ProfessionalMemberApiParams? params,
+    int page = 1,
+    int limit = 25,
+  });
+
   Future<ProfessionalMember?> member({
     required ProfessionalMemberApiParams params,
   });
