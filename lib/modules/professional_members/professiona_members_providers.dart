@@ -31,7 +31,6 @@ class ProfessionalMemberProviders {
         ref.watch(api),
         ref.watch(stateHolder.notifier),
       );
-      manager.init();
 
       ref.onDispose(manager.dispose);
       return manager;

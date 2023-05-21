@@ -9,10 +9,11 @@ class ProfessionalMembersStateHolder
     super.state = const ProfessionalMembersState.empty(),
   ]);
 
-  void setMembers(List<ProfessionalMember> members) =>
-      state = ProfessionalMembersState(
-        members: members,
-      );
+  void setMembers(List<ProfessionalMember> members) {
+    state = ProfessionalMembersState(
+      members: members,
+    );
+  }
 
   void addMembers(List<ProfessionalMember> members) => state = state.map(
         (value) => value.copyWith(members: [

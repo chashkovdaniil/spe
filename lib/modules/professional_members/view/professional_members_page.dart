@@ -6,12 +6,14 @@ import '../../../core/app_providers.dart';
 import '../../../models/professional_member.dart';
 import '../professiona_members_providers.dart';
 
-class ProfessionalMembersPage extends StatelessWidget {
+class ProfessionalMembersPage extends ConsumerWidget {
   static const pageName = '/members';
   const ProfessionalMembersPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(ProfessionalMemberProviders.manager).init();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Список участников'),
