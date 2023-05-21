@@ -6,27 +6,25 @@ import '../../../core/app_providers.dart';
 import '../../../models/professional_member.dart';
 import '../professiona_members_providers.dart';
 
-class ProfessionalMembersPage extends HookConsumerWidget {
+class ProfessionalMembersPage extends StatelessWidget {
   static const pageName = '/members';
   const ProfessionalMembersPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final manager = ref.watch(ProfessionalMemberProviders.manager);
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Список участников'),
       ),
-      body: ProfessionalMemberListWidget(
-        onTapLoadMore: () => manager.load(),
+      body: const ProfessionalMemberListWidget(
+        onTapLoadMore: null,
       ),
     );
   }
 }
 
 class ProfessionalMemberListWidget extends HookConsumerWidget {
-  final VoidCallback onTapLoadMore;
+  final VoidCallback? onTapLoadMore;
   const ProfessionalMemberListWidget({
     super.key,
     required this.onTapLoadMore,
@@ -56,12 +54,13 @@ class ProfessionalMemberListWidget extends HookConsumerWidget {
             children: [
               child,
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: onTapLoadMore,
-                child: const Text(
-                  'Загрузить еще',
+              if (onTapLoadMore != null)
+                ElevatedButton(
+                  onPressed: onTapLoadMore,
+                  child: const Text(
+                    'Загрузить еще',
+                  ),
                 ),
-              ),
             ],
           );
         }

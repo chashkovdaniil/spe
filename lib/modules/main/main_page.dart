@@ -56,6 +56,7 @@ class NaviPage extends HookConsumerWidget {
     final navigatorProvider = ref.watch(AppProvider.navigatorProvider);
 
     return NavigationRail(
+      labelType: NavigationRailLabelType.all,
       destinations: const [
         NavigationRailDestination(
           icon: Icon(Icons.person),

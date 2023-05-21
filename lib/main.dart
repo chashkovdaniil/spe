@@ -5,12 +5,14 @@ import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/app_providers.dart';
 import 'firebase_options.dart';
 import 'modules/main/main_page.dart';
 
 void main() async {
+  initializeDateFormatting('ru_RU');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -37,8 +39,17 @@ class SPEApp extends HookConsumerWidget {
       return manager.dispose;
     }, const []);
 
-    return const MaterialApp(
-      home: MainPage(),
+    return MaterialApp(
+      home: const MainPage(),
+      theme: Theme.of(context).copyWith(
+        useMaterial3: true,
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.w800,
+            fontSize: 28,
+          ),
+        ),
+      ),
     );
   }
 }

@@ -20,10 +20,15 @@ enum NavigatorRouteNames {
   const NavigatorRouteNames(this._name);
 }
 
-class NavigatorProvider {
-  final key = GlobalKey<NavigatorState>();
+final _key = GlobalKey<NavigatorState>();
 
-  NavigatorState get _state => key.currentState as NavigatorState;
+class NavigatorProvider {
+  final ProfessionalMember? currentMember;
+
+  NavigatorProvider(this.currentMember);
+
+  Key get key => _key;
+  NavigatorState get _state => _key.currentState as NavigatorState;
 
   Map<String, RouteBuilder> get routes => {
         ProfessionalMembersPage.pageName: (_) =>
@@ -66,8 +71,16 @@ class NavigatorProvider {
         arguments: ProfessionalMemberArguments(member),
       );
 
-  void openProfile() =>
-      _state.pushNamedAndRemoveUntil(ProfilePage.routeName, (_) => false);
+  void openProfile() {
+    if (currentMember != null) {
+      _state.pushNamedAndRemoveUntil(
+        ProfessionalMemberPage.pageName,
+        (_) => false,
+        arguments: ProfessionalMemberArguments(currentMember!),
+      );
+    }
+  }
+  // _state.pushNamedAndRemoveUntil(ProfilePage.routeName, (_) => false);
 
   void openChats() =>
       _state.pushNamedAndRemoveUntil(ChatsPage.routeName, (_) => false);

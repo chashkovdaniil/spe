@@ -58,6 +58,22 @@ class ProfessionalMembersApiFirebase extends ProfessionalMembersApi {
   }
 
   @override
+  Stream<List<ProfessionalMember>> membersStream({
+    ProfessionalMemberApiParams? params,
+    int page = 1,
+    int limit = 25,
+  }) {
+    final docs = _storageService.stream(CollectionPaths.users.path);
+
+    return docs.map(
+      (docs) => docs
+          .map((doc) => ProfessionalMember.fromDocument(doc))
+          .where((element) => element.id != _appState.professionalMember?.id)
+          .toList(),
+    );
+  }
+
+  @override
   Future<bool> removeMember(ProfessionalMember member) {
     final docPath = '${CollectionPaths.users.path}/${member.id}';
     return _storageService.delete(docPath);
@@ -65,6 +81,7 @@ class ProfessionalMembersApiFirebase extends ProfessionalMembersApi {
 
   @override
   Future<bool> updateMember(ProfessionalMember member) async {
+    print('asd');
     final docPath = '${CollectionPaths.users.path}/${member.id}';
     return _storageService.update(docPath, member.toJson());
   }
