@@ -38,32 +38,43 @@ class ChatMessagesView extends HookConsumerWidget {
     return Column(
       children: [
         Expanded(child: body),
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: textEditingController,
-                decoration: InputDecoration(
-                  fillColor: Colors.grey.shade200,
-                  hintText: 'Введите сообщение...',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
+        Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Theme.of(context).inputDecorationTheme.focusColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: textEditingController,
+                  decoration: InputDecoration(
+                    filled: false,
+                    hintText: 'Введите сообщение...',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.zero,
+                      borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: null,
+                    focusedBorder: null,
+                    errorBorder: null,
                   ),
                 ),
               ),
-            ),
-            const SizedBox(width: 20),
-            IconButton(
-              onPressed: () {
-                ref.read(ChatsProviders.manager).sendMessage(
-                      textEditingController.text,
-                    );
-                textEditingController.clear();
-              },
-              icon: const Icon(Icons.send),
-            ),
-            const SizedBox(width: 20),
-          ],
+              const SizedBox(width: 20),
+              IconButton(
+                onPressed: () {
+                  ref.read(ChatsProviders.manager).sendMessage(
+                        textEditingController.text,
+                      );
+                  textEditingController.clear();
+                },
+                icon: const Icon(Icons.send),
+              ),
+              const SizedBox(width: 20),
+            ],
+          ),
         ),
       ],
     );

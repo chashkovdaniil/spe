@@ -57,10 +57,35 @@ class SPEApp extends HookConsumerWidget {
       ],
       theme: Theme.of(context).copyWith(
         useMaterial3: true,
+        navigationRailTheme: NavigationRailThemeData(
+          selectedLabelTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+          unselectedLabelTextStyle: TextStyle(
+            fontSize: 18,
+          ),
+          selectedIconTheme: IconThemeData(
+            size: 28,
+            color: Colors.white,
+          ),
+          indicatorColor: Colors.blue.shade300,
+          indicatorShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.black12.withOpacity(0.05),
+          hoverColor: Colors.black12.withOpacity(0.05),
+          focusColor: Colors.black12.withOpacity(0.05),
+          border: null,
+          outlineBorder: null,
+        ),
         appBarTheme: AppBarTheme(
           titleTextStyle: TextStyle(
             fontWeight: FontWeight.w800,
-            fontSize: 28,
+            fontSize: 34,
           ),
         ),
       ),
