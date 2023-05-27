@@ -5,7 +5,7 @@ import '../../../models/professional_member.dart';
 import '../../../services/storage_service.dart';
 import 'professional_members_api.dart';
 
-class ProfessionalMembersApiFirebase extends ProfessionalMembersApi {
+class ProfessionalMembersApiFirebase implements ProfessionalMembersApi {
   final StorageService _storageService;
   final AppState _appState;
 
@@ -63,7 +63,7 @@ class ProfessionalMembersApiFirebase extends ProfessionalMembersApi {
     int page = 1,
     int limit = 25,
   }) {
-    final docs = _storageService.stream(CollectionPaths.users.path);
+    final docs = _storageService.documentsStream(CollectionPaths.users.path);
 
     return docs.map(
       (docs) => docs
@@ -84,5 +84,13 @@ class ProfessionalMembersApiFirebase extends ProfessionalMembersApi {
     print('asd');
     final docPath = '${CollectionPaths.users.path}/${member.id}';
     return _storageService.update(docPath, member.toJson());
+  }
+
+  @override
+  Stream<ProfessionalMember> memberStream(
+      {required ProfessionalMemberApiParams params}) {
+    final docs = _storageService
+        .documentStream('${CollectionPaths.users.path}/${params.id}');
+    return docs.map((doc) => ProfessionalMember.fromDocument(doc));
   }
 }

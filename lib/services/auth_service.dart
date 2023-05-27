@@ -16,9 +16,8 @@ class AuthService {
     this._professionalMembersApi,
   );
 
+  Stream<User?> get userStream => _auth.userChanges();
   Stream<bool> get hasUser => _auth.userChanges().map((user) => user != null);
-
-  Stream<ProfessionalMember?> get member => _memberSubject.stream;
 
   Future<void> init() async {
     _userSub = _auth.userChanges().listen((user) async {
@@ -33,10 +32,7 @@ class AuthService {
       if (member == null) {
         member = ProfessionalMember.fromUser(user);
         _professionalMembersApi.addMember(member);
-      } else {
-        _professionalMembersApi.updateMember(member);
       }
-      _memberSubject.add(member);
     });
   }
 

@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: '^3.0.0'
 
 dependencies:
   flutter:
@@ -21,7 +21,7 @@ dependencies:
   cloud_firestore: ^4.5.0
   dropdown_search: ^5.0.6
   uuid: ^3.0.7
-  intl: ^0.17.0
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:

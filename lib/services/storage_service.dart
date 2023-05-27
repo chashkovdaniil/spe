@@ -14,7 +14,7 @@ class StorageService {
   final _db = FirebaseFirestore.instance;
 
   Future<void> init() async {
-    _db.useFirestoreEmulator('127.0.0.1', 8080);
+    _db.useFirestoreEmulator('127.0.0.1', 9001);
   }
 
   Future<Document> add(
@@ -170,7 +170,7 @@ class StorageService {
         .toList();
   }
 
-  Stream<List<Document>> stream(
+  Stream<List<Document>> documentsStream(
     String collectionPath, {
     String? orderByField,
     bool descending = true,
@@ -187,6 +187,15 @@ class StorageService {
 
               return Document(data: data, ref: doc.reference);
             }).toList());
+  }
+
+  Stream<Document> documentStream(String docPath) {
+    final docRef = _db.doc(docPath);
+    return docRef.snapshots().map((doc) {
+      final data = doc.data() as Map<String, Object?>;
+
+      return Document(data: data, ref: doc.reference);
+    });
   }
 
   Stream<List<Document>> streamWhere(

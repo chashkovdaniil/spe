@@ -2,7 +2,7 @@ import '../../../models/professional_member.dart';
 import 'mock/professional_members.dart';
 import 'professional_members_api.dart';
 
-class ProfessionalMembersApiMock extends ProfessionalMembersApi {
+class ProfessionalMembersApiMock implements ProfessionalMembersApi {
   @override
   Future<bool> addMember(ProfessionalMember member) {
     // TODO: implement addMember
@@ -42,6 +42,13 @@ class ProfessionalMembersApiMock extends ProfessionalMembersApi {
   @override
   Future<bool> updateMember(ProfessionalMember member) {
     // TODO: implement updateMember
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<ProfessionalMember> memberStream(
+      {required ProfessionalMemberApiParams params}) {
+    // TODO: implement memberStream
     throw UnimplementedError();
   }
 }

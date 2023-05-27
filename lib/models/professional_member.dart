@@ -7,7 +7,12 @@ import '../services/storage_service.dart';
 part 'professional_member.freezed.dart';
 part 'professional_member.g.dart';
 
-enum ProfessionalMemberRoles { user, admin }
+enum ProfessionalMemberRoles {
+  user,
+  admin;
+
+  bool get isAdmin => this == ProfessionalMemberRoles.admin;
+}
 
 @freezed
 class ProfessionalMember with _$ProfessionalMember {

@@ -9,6 +9,8 @@ class AppStateHolder extends StateNotifier<AppState> {
           const AppState(professionalMember: null),
         );
 
+  ProfessionalMember? get member => state.professionalMember;
+
   void setProfessionalMember(ProfessionalMember? member) =>
       state = state.copyWith(
         professionalMember: member,

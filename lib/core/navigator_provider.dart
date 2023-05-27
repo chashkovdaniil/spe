@@ -8,6 +8,7 @@ import '../modules/chats/view/chats_page.dart';
 import '../modules/professional_members/view/professional_member_page.dart';
 import '../modules/professional_members/view/professional_members_page.dart';
 import '../modules/profile/view/profile_page.dart';
+import '../services/auth_service.dart';
 
 typedef RouteBuilder = Widget Function(BuildContext context);
 
@@ -23,9 +24,10 @@ enum NavigatorRouteNames {
 final _key = GlobalKey<NavigatorState>();
 
 class NavigatorProvider {
-  final ProfessionalMember? currentMember;
+  final ProfessionalMember? _currentMember;
+  final AuthService _authService;
 
-  NavigatorProvider(this.currentMember);
+  NavigatorProvider(this._currentMember, this._authService);
 
   Key get key => _key;
   NavigatorState get _state => _key.currentState as NavigatorState;
@@ -72,11 +74,11 @@ class NavigatorProvider {
       );
 
   void openProfile() {
-    if (currentMember != null) {
+    if (_currentMember != null) {
       _state.pushNamedAndRemoveUntil(
         ProfessionalMemberPage.pageName,
         (_) => false,
-        arguments: ProfessionalMemberArguments(currentMember!),
+        arguments: ProfessionalMemberArguments(_currentMember!),
       );
     }
   }
@@ -94,4 +96,6 @@ class NavigatorProvider {
         ChatPage.routeName,
         arguments: chat,
       );
+
+  void logout() => _authService.logout();
 }

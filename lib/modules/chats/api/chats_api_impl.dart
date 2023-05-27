@@ -136,7 +136,7 @@ class ChatsApiImpl implements ChatsApi {
     }
 
     return _storageService
-        .stream(
+        .documentsStream(
       '${CollectionPaths.chats.path}/$chatId'
       '${CollectionPaths.chatMessages.path}',
       orderByField: 'sentAt',

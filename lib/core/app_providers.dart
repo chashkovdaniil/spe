@@ -11,6 +11,7 @@ import 'state/app_state_holder.dart';
 class AppProvider {
   static final navigatorProvider = Provider((ref) => NavigatorProvider(
         ref.watch(appStateHolder).professionalMember,
+        ref.watch(authService),
       ));
   static final authService = Provider(
     (ref) => AuthService(
@@ -30,6 +31,7 @@ class AppProvider {
         ref.watch(navigatorProvider),
         ref.watch(authService),
         ref.watch(storageService),
+        ref.watch(ProfessionalMemberProviders.api),
       );
 
       return manager;

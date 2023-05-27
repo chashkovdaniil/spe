@@ -1,6 +1,6 @@
 import '../../../models/professional_member.dart';
 
-abstract class ProfessionalMembersApi {
+abstract interface class ProfessionalMembersApi {
   Future<List<ProfessionalMember>> members({
     ProfessionalMemberApiParams? params,
     int page = 1,
@@ -14,6 +14,10 @@ abstract class ProfessionalMembersApi {
   });
 
   Future<ProfessionalMember?> member({
+    required ProfessionalMemberApiParams params,
+  });
+
+  Stream<ProfessionalMember> memberStream({
     required ProfessionalMemberApiParams params,
   });
 

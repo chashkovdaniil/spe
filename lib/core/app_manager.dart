@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../models/professional_member.dart';
+import '../modules/professional_members/api/professional_members_api.dart';
 import '../services/auth_service.dart';
 import '../services/storage_service.dart';
 import 'navigator_provider.dart';
@@ -11,7 +14,9 @@ class AppManager {
   final NavigatorProvider _navigatorProvider;
   final AuthService _authService;
   final StorageService _storageService;
-  StreamSubscription<bool>? _hasUserSub;
+  final ProfessionalMembersApi _api;
+
+  StreamSubscription<User?>? _hasUserSub;
   StreamSubscription<ProfessionalMember?>? _memberSub;
 
   AppManager(
@@ -19,19 +24,22 @@ class AppManager {
     this._navigatorProvider,
     this._authService,
     this._storageService,
+    this._api,
   );
 
   Future<void> init() async {
     await _storageService.init();
     await _authService.init();
-    _hasUserSub = _authService.hasUser.listen((hasUser) {
-      if (!hasUser) {
+    _hasUserSub = _authService.userStream.listen((user) {
+      if (user == null) {
         _navigatorProvider.openSignIn();
+      } else {
+        _memberSub = _api
+            .memberStream(params: ProfessionalMemberApiParams(id: user.uid))
+            .listen((member) {
+          setProfessionalMember(member);
+        });
       }
-    });
-
-    _memberSub = _authService.member.listen((member) {
-      setProfessionalMember(member);
     });
   }
 
