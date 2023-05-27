@@ -14,7 +14,10 @@ class StorageService {
   final _db = FirebaseFirestore.instance;
 
   Future<void> init() async {
-    _db.useFirestoreEmulator('127.0.0.1', 9001);
+    assert(() {
+      _db.useFirestoreEmulator('127.0.0.1', 9001);
+      return true;
+    }());
   }
 
   Future<Document> add(

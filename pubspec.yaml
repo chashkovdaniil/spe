@@ -22,6 +22,9 @@ dependencies:
   dropdown_search: ^5.0.6
   uuid: ^3.0.7
   intl: ^0.18.0
+  flutter_localizations:
+    sdk: flutter
+  firebase_ui_localizations: ^1.2.0
 
 dev_dependencies:
   flutter_test:

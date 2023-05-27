@@ -43,6 +43,11 @@ class ProfessionalMemberListWidget extends HookConsumerWidget {
         );
       },
     ));
+    if (members.isEmpty) {
+      return const Center(
+        child: Text('Других участников нет'),
+      );
+    }
 
     return ListView.builder(
       controller: scrollController,

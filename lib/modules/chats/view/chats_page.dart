@@ -48,6 +48,12 @@ class _ChatsList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final chats = ref.watch(ChatsProviders.stateHolder).chats;
 
+    if (chats.isEmpty) {
+      return const Center(
+        child: Text('Создайте первый чат'),
+      );
+    }
+
     return ListView(
       children: chats
           .map(

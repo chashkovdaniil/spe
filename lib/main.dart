@@ -1,29 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart' as UIAuth;
+import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/app_providers.dart';
 import 'firebase_options.dart';
 import 'modules/main/main_page.dart';
+import 'services/auth_service.dart';
 
 void main() async {
   initializeDateFormatting('ru_RU');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseUIAuth.configureProviders([
+  UIAuth.FirebaseUIAuth.configureProviders([
+    UIAuth.EmailAuthProvider(),
     GoogleProvider(
       clientId:
           '91199716034-o39o3p2mag74m311j9l650feeoi5ks7p.apps.googleusercontent.com',
     ),
   ]);
-  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  assert(() {
+    FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    return true;
+  }());
 
   runApp(const ProviderScope(child: SPEApp()));
 }
@@ -42,6 +49,12 @@ class SPEApp extends HookConsumerWidget {
 
     return MaterialApp(
       home: const MainPage(),
+      localizationsDelegates: [
+        FirebaseUILocalizations.withDefaultOverrides(LabelOverrides()),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        FirebaseUILocalizations.delegate,
+      ],
       theme: Theme.of(context).copyWith(
         useMaterial3: true,
         appBarTheme: AppBarTheme(

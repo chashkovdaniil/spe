@@ -33,12 +33,14 @@ class ChatsManager with InitialDisposableMixin {
       return;
     }
     List<Chat> chats;
-    if (_currentUser?.role == ProfessionalMemberRoles.admin) {
-      chats = await _chatsApi.allChats();
-    } else {
-      chats = await _chatsApi.chats();
-    }
-    _chatsStateHolder.setChats(chats);
+    // if (_currentUser?.role == ProfessionalMemberRoles.admin) {
+    //   chats = await _chatsApi.allChats();
+    //   _chatsStateHolder.setChats(chats);
+    // }
+    // else {
+    //   chats = await _chatsApi.chats();
+    // }
+    // _chatsStateHolder.setChats(chats);
     super.init();
   }
 

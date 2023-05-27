@@ -46,19 +46,6 @@ class NavigatorProvider {
               ],
             ),
         ChatPage.routeName: (_) => const ChatPage(),
-        // '/profile': (context) {
-        //   return ProfileScreen(
-        //     actions: [
-        //       SignedOutAction((context) {
-        //         Navigator.pushNamedAndRemoveUntil(
-        //           context,
-        //           '/sign-in',
-        //           (route) => false,
-        //         );
-        //       }),
-        //     ],
-        //   );
-        // }
         ChatsPage.routeName: (_) => const ChatsPage(),
       };
 

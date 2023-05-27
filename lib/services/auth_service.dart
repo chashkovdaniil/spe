@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../models/professional_member.dart';
@@ -42,4 +43,50 @@ class AuthService {
     _memberSubject.close();
     await _userSub?.cancel();
   }
+}
+
+class LabelOverrides extends DefaultLocalizations {
+  const LabelOverrides();
+
+  @override
+  String get emailInputLabel => 'Введите email';
+
+  @override
+  String get passwordInputLabel => 'Введите пароль';
+
+  @override
+  String get registerHintText => 'Нет аккаунта?';
+
+  @override
+  String get registerText => 'Создайте аккаунт';
+
+  @override
+  String get registerActionText => 'Создать аккаунт';
+
+  @override
+  String get signInActionText => 'Войти';
+
+  @override
+  String get signInText => 'Войдите';
+
+  @override
+  String get signInHintText => 'Уже есть аккаунт?';
+
+  @override
+  String get confirmPasswordInputLabel => 'Повторите пароль';
+
+  @override
+  String get forgotPasswordButtonLabel => 'Забыли пароль?';
+
+  @override
+  String get signInWithGoogleButtonText => 'Войти с помощью Google';
+
+  @override
+  String get emailIsRequiredErrorText => 'Email обязательно';
+
+  @override
+  String get passwordIsRequiredErrorText => 'Пароль обязателн';
+
+  @override
+  String get confirmPasswordIsRequiredErrorText => 'Повторите пароль!';
 }
