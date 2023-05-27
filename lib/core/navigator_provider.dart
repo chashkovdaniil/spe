@@ -7,7 +7,6 @@ import '../modules/chats/view/chat_page.dart';
 import '../modules/chats/view/chats_page.dart';
 import '../modules/professional_members/view/professional_member_page.dart';
 import '../modules/professional_members/view/professional_members_page.dart';
-import '../modules/profile/view/profile_page.dart';
 import '../services/auth_service.dart';
 
 typedef RouteBuilder = Widget Function(BuildContext context);
@@ -46,7 +45,6 @@ class NavigatorProvider {
                 ),
               ],
             ),
-        ProfilePage.routeName: (_) => const ProfilePage(),
         ChatPage.routeName: (_) => const ChatPage(),
         // '/profile': (context) {
         //   return ProfileScreen(
