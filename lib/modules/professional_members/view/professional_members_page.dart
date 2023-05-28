@@ -17,6 +17,14 @@ class ProfessionalMembersPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Список участников'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              ref.read(AppProvider.appManager).toggleSearchBar();
+            },
+            icon: const Icon(Icons.search),
+          ),
+        ],
       ),
       body: const ProfessionalMemberListWidget(
         onTapLoadMore: null,

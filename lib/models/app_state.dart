@@ -9,6 +9,7 @@ part 'app_state.g.dart';
 class AppState with _$AppState {
   const factory AppState({
     required ProfessionalMember? professionalMember,
+    @Default(false) bool showSearchBar,
   }) = _AppState;
 
   factory AppState.fromJson(Map<String, dynamic> json) =>

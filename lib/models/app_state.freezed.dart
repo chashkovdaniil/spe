@@ -22,6 +22,7 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) {
 mixin _$AppState {
   ProfessionalMember? get professionalMember =>
       throw _privateConstructorUsedError;
+  bool get showSearchBar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $AppStateCopyWith<$Res> {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) then) =
       _$AppStateCopyWithImpl<$Res, AppState>;
   @useResult
-  $Res call({ProfessionalMember? professionalMember});
+  $Res call({ProfessionalMember? professionalMember, bool showSearchBar});
 
   $ProfessionalMemberCopyWith<$Res>? get professionalMember;
 }
@@ -53,12 +54,17 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
   @override
   $Res call({
     Object? professionalMember = freezed,
+    Object? showSearchBar = null,
   }) {
     return _then(_value.copyWith(
       professionalMember: freezed == professionalMember
           ? _value.professionalMember
           : professionalMember // ignore: cast_nullable_to_non_nullable
               as ProfessionalMember?,
+      showSearchBar: null == showSearchBar
+          ? _value.showSearchBar
+          : showSearchBar // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -83,7 +89,7 @@ abstract class _$$_AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
       __$$_AppStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ProfessionalMember? professionalMember});
+  $Res call({ProfessionalMember? professionalMember, bool showSearchBar});
 
   @override
   $ProfessionalMemberCopyWith<$Res>? get professionalMember;
@@ -101,12 +107,17 @@ class __$$_AppStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? professionalMember = freezed,
+    Object? showSearchBar = null,
   }) {
     return _then(_$_AppState(
       professionalMember: freezed == professionalMember
           ? _value.professionalMember
           : professionalMember // ignore: cast_nullable_to_non_nullable
               as ProfessionalMember?,
+      showSearchBar: null == showSearchBar
+          ? _value.showSearchBar
+          : showSearchBar // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -114,17 +125,21 @@ class __$$_AppStateCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_AppState implements _AppState {
-  const _$_AppState({required this.professionalMember});
+  const _$_AppState(
+      {required this.professionalMember, this.showSearchBar = false});
 
   factory _$_AppState.fromJson(Map<String, dynamic> json) =>
       _$$_AppStateFromJson(json);
 
   @override
   final ProfessionalMember? professionalMember;
+  @override
+  @JsonKey()
+  final bool showSearchBar;
 
   @override
   String toString() {
-    return 'AppState(professionalMember: $professionalMember)';
+    return 'AppState(professionalMember: $professionalMember, showSearchBar: $showSearchBar)';
   }
 
   @override
@@ -133,12 +148,15 @@ class _$_AppState implements _AppState {
         (other.runtimeType == runtimeType &&
             other is _$_AppState &&
             (identical(other.professionalMember, professionalMember) ||
-                other.professionalMember == professionalMember));
+                other.professionalMember == professionalMember) &&
+            (identical(other.showSearchBar, showSearchBar) ||
+                other.showSearchBar == showSearchBar));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, professionalMember);
+  int get hashCode =>
+      Object.hash(runtimeType, professionalMember, showSearchBar);
 
   @JsonKey(ignore: true)
   @override
@@ -156,12 +174,15 @@ class _$_AppState implements _AppState {
 
 abstract class _AppState implements AppState {
   const factory _AppState(
-      {required final ProfessionalMember? professionalMember}) = _$_AppState;
+      {required final ProfessionalMember? professionalMember,
+      final bool showSearchBar}) = _$_AppState;
 
   factory _AppState.fromJson(Map<String, dynamic> json) = _$_AppState.fromJson;
 
   @override
   ProfessionalMember? get professionalMember;
+  @override
+  bool get showSearchBar;
   @override
   @JsonKey(ignore: true)
   _$$_AppStateCopyWith<_$_AppState> get copyWith =>

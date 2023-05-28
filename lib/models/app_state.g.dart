@@ -11,9 +11,11 @@ _$_AppState _$$_AppStateFromJson(Map<String, dynamic> json) => _$_AppState(
           ? null
           : ProfessionalMember.fromJson(
               json['professionalMember'] as Map<String, dynamic>),
+      showSearchBar: json['showSearchBar'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_AppStateToJson(_$_AppState instance) =>
     <String, dynamic>{
       'professionalMember': instance.professionalMember,
+      'showSearchBar': instance.showSearchBar,
     };

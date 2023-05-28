@@ -75,7 +75,7 @@ class SPEApp extends HookConsumerWidget {
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
-          filled: true,
+          filled: false,
           fillColor: Colors.black12.withOpacity(0.05),
           hoverColor: Colors.black12.withOpacity(0.05),
           focusColor: Colors.black12.withOpacity(0.05),

@@ -11,6 +11,10 @@ class AppStateHolder extends StateNotifier<AppState> {
 
   ProfessionalMember? get member => state.professionalMember;
 
+  void toggleSearchBar() => state = state.copyWith(
+        showSearchBar: !state.showSearchBar,
+      );
+
   void setProfessionalMember(ProfessionalMember? member) =>
       state = state.copyWith(
         professionalMember: member,

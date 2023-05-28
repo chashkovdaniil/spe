@@ -46,6 +46,8 @@ class AppManager {
   void setProfessionalMember(ProfessionalMember? member) =>
       _appStateHolder.setProfessionalMember(member);
 
+  void toggleSearchBar() => _appStateHolder.toggleSearchBar();
+
   Future<void> dispose() async {
     _hasUserSub?.cancel();
     _memberSub?.cancel();
