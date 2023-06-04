@@ -8,18 +8,16 @@ import 'widgets/chat_message_view.dart';
 import 'widgets/chat_page_title.dart';
 
 class ChatPage extends HookConsumerWidget {
-  static const routeName = '/chat';
+  static const routeName = '/chats/:chatId';
 
-  const ChatPage({Key? key}) : super(key: key);
+  final String chatId;
+  const ChatPage(this.chatId, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chat = ModalRoute.of(context)?.settings.arguments as Chat?;
     useEffect(() {
-      if (chat != null) {
-        ref.read(ChatsProviders.manager).selectChat(chat);
-      }
-      final unselectChatFuncRef = ref.read(ChatsProviders.manager).unselectChat;
+      ref.read(ChatsProviders.manager).loadChat(chatId);
+      final unselectChatFuncRef = ref.read(ChatsProviders.manager).closeChat;
       return () => Future.delayed(Duration.zero, unselectChatFuncRef);
     }, const []);
 

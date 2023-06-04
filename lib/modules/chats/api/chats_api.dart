@@ -15,7 +15,7 @@ abstract class ChatsApi {
 
   Future<void> removeMembers(Chat chat, List<ProfessionalMember> members);
 
-  Future<void> sendMessage(Chat chat, ChatMessage message);
+  Future<void> sendMessage(Chat chat, String message);
 
   Future<void> deleteChat(String name, List<ProfessionalMember> members);
 

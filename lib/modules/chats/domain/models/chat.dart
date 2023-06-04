@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../models/professional_member.dart';
-import '../../../../services/storage_service.dart';
+import '../../../../services/firstore_service.dart';
 import 'chat_message.dart';
 
 part 'chat.freezed.dart';

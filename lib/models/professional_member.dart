@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../services/storage_service.dart';
+import '../services/firstore_service.dart';
 
 part 'professional_member.freezed.dart';
 part 'professional_member.g.dart';
@@ -13,6 +13,8 @@ enum ProfessionalMemberRoles {
 
   bool get isAdmin => this == ProfessionalMemberRoles.admin;
 }
+
+class ProfessionalMemberNotFound {}
 
 @freezed
 class ProfessionalMember with _$ProfessionalMember {
@@ -46,6 +48,7 @@ class ProfessionalMember with _$ProfessionalMember {
     required String companyCategory,
     required String email,
     @Default(ProfessionalMemberRoles.user) ProfessionalMemberRoles role,
+    @Default('') String photoUrl,
   }) = _ProfessionalMember;
 
   factory ProfessionalMember.fromJson(Map<String, dynamic> json) =>
@@ -67,11 +70,16 @@ class ProfessionalMember with _$ProfessionalMember {
   }
 
   factory ProfessionalMember.fromUser(User user) {
+    final splittedDisplayName = user.displayName?.split(' ') ?? [];
+    final firstName = splittedDisplayName.elementAtOrNull(0);
+    final lastName = splittedDisplayName.elementAtOrNull(1);
+    final patronymic = splittedDisplayName.elementAtOrNull(2);
+
     return ProfessionalMember(
       id: user.uid,
-      firstName: user.displayName ?? 'НЕ УКАЗАНО',
-      lastName: user.displayName ?? 'НЕ УКАЗАНО',
-      patronymic: user.displayName ?? 'НЕ УКАЗАНО',
+      firstName: firstName ?? '',
+      lastName: lastName ?? '',
+      patronymic: patronymic ?? '',
       currentMember: true,
       yearsOfMembership: 0,
       memberSince: DateTime.now(),
@@ -94,6 +102,7 @@ class ProfessionalMember with _$ProfessionalMember {
       jobClassification: 'НЕ УКАЗАНО',
       companyCategory: 'НЕ УКАЗАНО',
       email: user.email ?? 'НЕ УКАЗАНО',
+      photoUrl: user.photoURL ?? '',
     );
   }
 

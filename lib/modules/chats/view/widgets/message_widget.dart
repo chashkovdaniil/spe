@@ -23,22 +23,32 @@ class MessageWidget extends StatelessWidget {
           if (!isCurrentMember)
             CircleAvatar(
               child: Text(message.sender.fullname.characters.first),
+              backgroundColor: Theme.of(context).colorScheme.secondary,
             ),
           const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (!isCurrentMember) Text(message.sender.firstName),
-              if (!isCurrentMember) const SizedBox(height: 10),
-              Container(
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.grey.shade200,
-                ),
-                child: Text(message.message),
-              ),
-            ],
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (!isCurrentMember) Text(message.sender.firstName),
+                if (!isCurrentMember) const SizedBox(height: 10),
+                LayoutBuilder(builder: (context, constraints) {
+                  return Container(
+                    padding: const EdgeInsets.all(15),
+                    constraints: BoxConstraints(
+                      maxWidth: constraints.maxWidth * 0.8,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.grey.shade200,
+                    ),
+                    child: Text(
+                      message.message,
+                    ),
+                  );
+                }),
+              ],
+            ),
           ),
           const SizedBox(width: 10),
         ],

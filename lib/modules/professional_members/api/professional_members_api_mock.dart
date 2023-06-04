@@ -51,4 +51,10 @@ class ProfessionalMembersApiMock implements ProfessionalMembersApi {
     // TODO: implement memberStream
     throw UnimplementedError();
   }
+
+  @override
+  Future<List<ProfessionalMember>> membersByFullname(String textForSpeech) {
+    // TODO: implement membersByFullname
+    throw UnimplementedError();
+  }
 }

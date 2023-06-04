@@ -1,13 +1,20 @@
+import 'dart:io';
+
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../models/professional_member.dart';
-import '../modules/chats/domain/models/chat.dart';
 import '../modules/chats/view/chat_page.dart';
 import '../modules/chats/view/chats_page.dart';
+import '../modules/main/main_page.dart';
+import '../modules/main/navi_page.dart';
 import '../modules/professional_members/view/professional_member_page.dart';
 import '../modules/professional_members/view/professional_members_page.dart';
 import '../services/auth_service.dart';
+import 'state/app_state_holder.dart';
 
 typedef RouteBuilder = Widget Function(BuildContext context);
 
@@ -21,66 +28,150 @@ enum NavigatorRouteNames {
 }
 
 final _key = GlobalKey<NavigatorState>();
+final _internalKey = GlobalKey<NavigatorState>(debugLabel: 'internal');
 
 class NavigatorProvider {
-  final ProfessionalMember? _currentMember;
+  final AppStateHolder _appStateHolder;
   final AuthService _authService;
 
-  NavigatorProvider(this._currentMember, this._authService);
+  NavigatorProvider(this._appStateHolder, this._authService);
 
   Key get key => _key;
-  NavigatorState get _state => _key.currentState as NavigatorState;
-
-  Map<String, RouteBuilder> get routes => {
-        ProfessionalMembersPage.pageName: (_) =>
-            const ProfessionalMembersPage(),
-        ProfessionalMemberPage.pageName: (_) => const ProfessionalMemberPage(),
-        NavigatorRouteNames.signIn.name: (_) => SignInScreen(
-              actions: [
-                AuthStateChangeAction<SignedIn>(
-                  (_, __) => openProfessionalMembers(),
-                ),
-                AuthStateChangeAction<UserCreated>(
-                  (_, __) => openProfessionalMembers(),
-                ),
-              ],
-            ),
-        ChatPage.routeName: (_) => const ChatPage(),
-        ChatsPage.routeName: (_) => const ChatsPage(),
-      };
+  BuildContext? get context => _key.currentContext;
 
   final initialRoute = ProfessionalMembersPage.pageName;
 
-  void openSignIn() => _state.pushNamedAndRemoveUntil('/sign-in', (_) => false);
-
-  void openProfessionalMember(ProfessionalMember member) => _state.pushNamed(
-        ProfessionalMemberPage.pageName,
-        arguments: ProfessionalMemberArguments(member),
-      );
-
-  void openProfile() {
-    if (_currentMember != null) {
-      _state.pushNamedAndRemoveUntil(
-        ProfessionalMemberPage.pageName,
-        (_) => false,
-        arguments: ProfessionalMemberArguments(_currentMember!),
-      );
+  void push(String location, {bool isTab = false, bool isExternal = false}) {
+    if (kIsWeb) {
+      context?.go(location);
+    } else {
+      if (isTab) {
+        context?.go(location);
+      } else {
+        context?.push(location);
+      }
     }
   }
-  // _state.pushNamedAndRemoveUntil(ProfilePage.routeName, (_) => false);
 
-  void openChats() =>
-      _state.pushNamedAndRemoveUntil(ChatsPage.routeName, (_) => false);
-
-  void openProfessionalMembers() => _state.pushNamedAndRemoveUntil(
-        ProfessionalMembersPage.pageName,
-        (_) => false,
+  void openSignIn() => context?.pushReplacement(
+        NavigatorRouteNames.signIn.name,
       );
 
-  void openChat(Chat chat) => _state.pushNamed(
-        ChatPage.routeName,
-        arguments: chat,
-      );
+  void openProfessionalMember(ProfessionalMember member) {
+    push('/members/${member.id}');
+  }
 
-  void logout() => _authService.logout();
+  void openProfile() {
+    final currentMember = _appStateHolder.member;
+    if (currentMember != null) {
+      push('/members/${currentMember.id}', isTab: true);
+    }
+  }
+
+  void openChats() => push(ChatsPage.routeName, isTab: true);
+
+  void openProfessionalMembers() =>
+      push(ProfessionalMembersPage.pageName, isTab: true);
+
+  void openChat(String chatId) => push('/chats/$chatId');
+
+  void logout() {
+    context?.pushReplacement(NavigatorRouteNames.signIn.name);
+    _authService.logout();
+  }
+
+  GoRouter get routerConfig => GoRouter(
+        navigatorKey: _key,
+        initialLocation: ProfessionalMembersPage.pageName,
+        redirect: (context, state) async {
+          Future.delayed(Duration.zero, () {
+            if (!_authService.hasUser) {
+              return NavigatorRouteNames.signIn.name;
+            }
+            final currentMemberId = _appStateHolder.member?.id ?? '';
+            if (state.location.contains(currentMemberId) == true &&
+                currentMemberId.isNotEmpty) {
+              _appStateHolder.setNavigationTab(NavigationTabs.profile);
+            } else if (state.location.contains('chat') == true) {
+              _appStateHolder.setNavigationTab(NavigationTabs.chats);
+            } else if (state.location == '/' ||
+                state.location.contains('members') == true) {
+              _appStateHolder.setNavigationTab(NavigationTabs.members);
+            }
+          });
+          return null;
+        },
+        routes: [
+          GoRoute(
+            path: NavigatorRouteNames.signIn.name,
+            builder: (context, state) {
+              return SignInScreen(
+                actions: [
+                  AuthStateChangeAction<SignedIn>(
+                    (_, __) => openProfessionalMembers(),
+                  ),
+                  AuthStateChangeAction<UserCreated>(
+                    (_, __) => openProfessionalMembers(),
+                  ),
+                ],
+              );
+            },
+          ),
+          ShellRoute(
+            pageBuilder: (context, state, child) =>
+                PageTransition(child: NavigationPage(child)),
+            builder: (context, state, child) {
+              return NavigationPage(child);
+            },
+            routes: [
+              GoRoute(
+                path: ChatsPage.routeName,
+                pageBuilder: (context, state) =>
+                    PageTransition(child: const ChatsPage()),
+              ),
+              GoRoute(
+                path: ChatPage.routeName,
+                pageBuilder: (context, state) {
+                  final chatId = state.pathParameters['chatId'];
+
+                  if (chatId == null) {
+                    return PageTransition(child: const SizedBox());
+                  }
+
+                  return PageTransition(child: ChatPage(chatId));
+                },
+              ),
+              GoRoute(
+                path: ProfessionalMembersPage.pageName,
+                pageBuilder: (_, state) =>
+                    PageTransition(child: const ProfessionalMembersPage()),
+              ),
+              GoRoute(
+                path: ProfessionalMemberPage.pageName,
+                pageBuilder: (_, state) {
+                  final memberId = state.pathParameters['memberId'];
+
+                  if (memberId == null) {
+                    return PageTransition(child: const SizedBox());
+                  }
+
+                  return PageTransition(
+                      child: ProfessionalMemberPage(memberId));
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+}
+
+class PageTransition extends CustomTransitionPage {
+  PageTransition({
+    required super.child,
+  }) : super(transitionsBuilder: (_, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        });
 }

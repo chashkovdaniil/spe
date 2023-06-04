@@ -16,43 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ProfessionalMembersState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(List<ProfessionalMember> members) $default, {
-    required TResult Function() empty,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<ProfessionalMember> members)? $default, {
-    TResult? Function()? empty,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<ProfessionalMember> members)? $default, {
-    TResult Function()? empty,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_ProfessionalMembersState value) $default, {
-    required TResult Function(_ProfessionalMembersStateEmpty value) empty,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_ProfessionalMembersState value)? $default, {
-    TResult? Function(_ProfessionalMembersStateEmpty value)? empty,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_ProfessionalMembersState value)? $default, {
-    TResult Function(_ProfessionalMembersStateEmpty value)? empty,
-    required TResult orElse(),
-  }) =>
+  List<ProfessionalMember> get members => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $ProfessionalMembersStateCopyWith<ProfessionalMembersState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -61,6 +28,8 @@ abstract class $ProfessionalMembersStateCopyWith<$Res> {
   factory $ProfessionalMembersStateCopyWith(ProfessionalMembersState value,
           $Res Function(ProfessionalMembersState) then) =
       _$ProfessionalMembersStateCopyWithImpl<$Res, ProfessionalMembersState>;
+  @useResult
+  $Res call({List<ProfessionalMember> members});
 }
 
 /// @nodoc
@@ -73,14 +42,29 @@ class _$ProfessionalMembersStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? members = null,
+  }) {
+    return _then(_value.copyWith(
+      members: null == members
+          ? _value.members
+          : members // ignore: cast_nullable_to_non_nullable
+              as List<ProfessionalMember>,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$_ProfessionalMembersStateCopyWith<$Res> {
+abstract class _$$_ProfessionalMembersStateCopyWith<$Res>
+    implements $ProfessionalMembersStateCopyWith<$Res> {
   factory _$$_ProfessionalMembersStateCopyWith(
           _$_ProfessionalMembersState value,
           $Res Function(_$_ProfessionalMembersState) then) =
       __$$_ProfessionalMembersStateCopyWithImpl<$Res>;
+  @override
   @useResult
   $Res call({List<ProfessionalMember> members});
 }
@@ -146,68 +130,6 @@ class _$_ProfessionalMembersState implements _ProfessionalMembersState {
   _$$_ProfessionalMembersStateCopyWith<_$_ProfessionalMembersState>
       get copyWith => __$$_ProfessionalMembersStateCopyWithImpl<
           _$_ProfessionalMembersState>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(List<ProfessionalMember> members) $default, {
-    required TResult Function() empty,
-  }) {
-    return $default(members);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<ProfessionalMember> members)? $default, {
-    TResult? Function()? empty,
-  }) {
-    return $default?.call(members);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<ProfessionalMember> members)? $default, {
-    TResult Function()? empty,
-    required TResult orElse(),
-  }) {
-    if ($default != null) {
-      return $default(members);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_ProfessionalMembersState value) $default, {
-    required TResult Function(_ProfessionalMembersStateEmpty value) empty,
-  }) {
-    return $default(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_ProfessionalMembersState value)? $default, {
-    TResult? Function(_ProfessionalMembersStateEmpty value)? empty,
-  }) {
-    return $default?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_ProfessionalMembersState value)? $default, {
-    TResult Function(_ProfessionalMembersStateEmpty value)? empty,
-    required TResult orElse(),
-  }) {
-    if ($default != null) {
-      return $default(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class _ProfessionalMembersState implements ProfessionalMembersState {
@@ -215,117 +137,10 @@ abstract class _ProfessionalMembersState implements ProfessionalMembersState {
           {required final List<ProfessionalMember> members}) =
       _$_ProfessionalMembersState;
 
+  @override
   List<ProfessionalMember> get members;
+  @override
   @JsonKey(ignore: true)
   _$$_ProfessionalMembersStateCopyWith<_$_ProfessionalMembersState>
       get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$_ProfessionalMembersStateEmptyCopyWith<$Res> {
-  factory _$$_ProfessionalMembersStateEmptyCopyWith(
-          _$_ProfessionalMembersStateEmpty value,
-          $Res Function(_$_ProfessionalMembersStateEmpty) then) =
-      __$$_ProfessionalMembersStateEmptyCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$_ProfessionalMembersStateEmptyCopyWithImpl<$Res>
-    extends _$ProfessionalMembersStateCopyWithImpl<$Res,
-        _$_ProfessionalMembersStateEmpty>
-    implements _$$_ProfessionalMembersStateEmptyCopyWith<$Res> {
-  __$$_ProfessionalMembersStateEmptyCopyWithImpl(
-      _$_ProfessionalMembersStateEmpty _value,
-      $Res Function(_$_ProfessionalMembersStateEmpty) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$_ProfessionalMembersStateEmpty
-    implements _ProfessionalMembersStateEmpty {
-  const _$_ProfessionalMembersStateEmpty();
-
-  @override
-  String toString() {
-    return 'ProfessionalMembersState.empty()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_ProfessionalMembersStateEmpty);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(List<ProfessionalMember> members) $default, {
-    required TResult Function() empty,
-  }) {
-    return empty();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<ProfessionalMember> members)? $default, {
-    TResult? Function()? empty,
-  }) {
-    return empty?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<ProfessionalMember> members)? $default, {
-    TResult Function()? empty,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_ProfessionalMembersState value) $default, {
-    required TResult Function(_ProfessionalMembersStateEmpty value) empty,
-  }) {
-    return empty(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_ProfessionalMembersState value)? $default, {
-    TResult? Function(_ProfessionalMembersStateEmpty value)? empty,
-  }) {
-    return empty?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_ProfessionalMembersState value)? $default, {
-    TResult Function(_ProfessionalMembersStateEmpty value)? empty,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _ProfessionalMembersStateEmpty
-    implements ProfessionalMembersState {
-  const factory _ProfessionalMembersStateEmpty() =
-      _$_ProfessionalMembersStateEmpty;
 }

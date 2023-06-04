@@ -4,8 +4,13 @@ import 'chats_state.dart';
 import 'models/chat.dart';
 import 'models/chat_message.dart';
 
+const _initialState = ChatsState(
+  chats: [],
+  chat: null,
+);
+
 class ChatsStateHolder extends StateNotifier<ChatsState> {
-  ChatsStateHolder() : super(ChatsState.empty());
+  ChatsStateHolder() : super(_initialState);
 
   ChatsState get data => state;
 
@@ -21,5 +26,5 @@ class ChatsStateHolder extends StateNotifier<ChatsState> {
     state = state.copyWith(chat: chat.copyWith(messages: messages));
   }
 
-  void clear() => state = ChatsState.empty();
+  void clear() => state = _initialState;
 }

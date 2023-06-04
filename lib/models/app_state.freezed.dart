@@ -22,7 +22,10 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) {
 mixin _$AppState {
   ProfessionalMember? get professionalMember =>
       throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
   bool get showSearchBar => throw _privateConstructorUsedError;
+  NavigationTabs get selectedNavigationTab =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +38,11 @@ abstract class $AppStateCopyWith<$Res> {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) then) =
       _$AppStateCopyWithImpl<$Res, AppState>;
   @useResult
-  $Res call({ProfessionalMember? professionalMember, bool showSearchBar});
+  $Res call(
+      {ProfessionalMember? professionalMember,
+      bool isLoading,
+      bool showSearchBar,
+      NavigationTabs selectedNavigationTab});
 
   $ProfessionalMemberCopyWith<$Res>? get professionalMember;
 }
@@ -54,17 +61,27 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
   @override
   $Res call({
     Object? professionalMember = freezed,
+    Object? isLoading = null,
     Object? showSearchBar = null,
+    Object? selectedNavigationTab = null,
   }) {
     return _then(_value.copyWith(
       professionalMember: freezed == professionalMember
           ? _value.professionalMember
           : professionalMember // ignore: cast_nullable_to_non_nullable
               as ProfessionalMember?,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       showSearchBar: null == showSearchBar
           ? _value.showSearchBar
           : showSearchBar // ignore: cast_nullable_to_non_nullable
               as bool,
+      selectedNavigationTab: null == selectedNavigationTab
+          ? _value.selectedNavigationTab
+          : selectedNavigationTab // ignore: cast_nullable_to_non_nullable
+              as NavigationTabs,
     ) as $Val);
   }
 
@@ -89,7 +106,11 @@ abstract class _$$_AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
       __$$_AppStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ProfessionalMember? professionalMember, bool showSearchBar});
+  $Res call(
+      {ProfessionalMember? professionalMember,
+      bool isLoading,
+      bool showSearchBar,
+      NavigationTabs selectedNavigationTab});
 
   @override
   $ProfessionalMemberCopyWith<$Res>? get professionalMember;
@@ -107,17 +128,27 @@ class __$$_AppStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? professionalMember = freezed,
+    Object? isLoading = null,
     Object? showSearchBar = null,
+    Object? selectedNavigationTab = null,
   }) {
     return _then(_$_AppState(
       professionalMember: freezed == professionalMember
           ? _value.professionalMember
           : professionalMember // ignore: cast_nullable_to_non_nullable
               as ProfessionalMember?,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       showSearchBar: null == showSearchBar
           ? _value.showSearchBar
           : showSearchBar // ignore: cast_nullable_to_non_nullable
               as bool,
+      selectedNavigationTab: null == selectedNavigationTab
+          ? _value.selectedNavigationTab
+          : selectedNavigationTab // ignore: cast_nullable_to_non_nullable
+              as NavigationTabs,
     ));
   }
 }
@@ -126,7 +157,10 @@ class __$$_AppStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AppState implements _AppState {
   const _$_AppState(
-      {required this.professionalMember, this.showSearchBar = false});
+      {required this.professionalMember,
+      required this.isLoading,
+      this.showSearchBar = false,
+      this.selectedNavigationTab = NavigationTabs.members});
 
   factory _$_AppState.fromJson(Map<String, dynamic> json) =>
       _$$_AppStateFromJson(json);
@@ -134,12 +168,17 @@ class _$_AppState implements _AppState {
   @override
   final ProfessionalMember? professionalMember;
   @override
+  final bool isLoading;
+  @override
   @JsonKey()
   final bool showSearchBar;
+  @override
+  @JsonKey()
+  final NavigationTabs selectedNavigationTab;
 
   @override
   String toString() {
-    return 'AppState(professionalMember: $professionalMember, showSearchBar: $showSearchBar)';
+    return 'AppState(professionalMember: $professionalMember, isLoading: $isLoading, showSearchBar: $showSearchBar, selectedNavigationTab: $selectedNavigationTab)';
   }
 
   @override
@@ -149,14 +188,18 @@ class _$_AppState implements _AppState {
             other is _$_AppState &&
             (identical(other.professionalMember, professionalMember) ||
                 other.professionalMember == professionalMember) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
             (identical(other.showSearchBar, showSearchBar) ||
-                other.showSearchBar == showSearchBar));
+                other.showSearchBar == showSearchBar) &&
+            (identical(other.selectedNavigationTab, selectedNavigationTab) ||
+                other.selectedNavigationTab == selectedNavigationTab));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, professionalMember, showSearchBar);
+  int get hashCode => Object.hash(runtimeType, professionalMember, isLoading,
+      showSearchBar, selectedNavigationTab);
 
   @JsonKey(ignore: true)
   @override
@@ -175,14 +218,20 @@ class _$_AppState implements _AppState {
 abstract class _AppState implements AppState {
   const factory _AppState(
       {required final ProfessionalMember? professionalMember,
-      final bool showSearchBar}) = _$_AppState;
+      required final bool isLoading,
+      final bool showSearchBar,
+      final NavigationTabs selectedNavigationTab}) = _$_AppState;
 
   factory _AppState.fromJson(Map<String, dynamic> json) = _$_AppState.fromJson;
 
   @override
   ProfessionalMember? get professionalMember;
   @override
+  bool get isLoading;
+  @override
   bool get showSearchBar;
+  @override
+  NavigationTabs get selectedNavigationTab;
   @override
   @JsonKey(ignore: true)
   _$$_AppStateCopyWith<_$_AppState> get copyWith =>

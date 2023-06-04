@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../core/app_providers.dart';
+import '../../../core/widgets/appbar.dart';
 import '../chats_providers.dart';
 import 'chats_add_dialog.dart';
 
@@ -13,18 +14,19 @@ class ChatsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final manager = ref.watch(ChatsProviders.manager);
+    final manager = ref.read(ChatsProviders.manager);
 
     useEffect(() {
-      manager.init();
-      manager.subscribeOnChatChanges();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        manager.init();
+      });
 
       return manager.cancelSubscriptionOnChatChanges;
     }, const []);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Чаты'),
+        title: TitleAppBar('Чаты'),
       ),
       body: const _ChatsList(),
       floatingActionButton: FloatingActionButton.extended(
@@ -46,7 +48,9 @@ class _ChatsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chats = ref.watch(ChatsProviders.stateHolder).chats;
+    final chats = ref.watch(
+      ChatsProviders.stateHolder.select((value) => value.chats),
+    );
 
     if (chats.isEmpty) {
       return const Center(
@@ -60,7 +64,7 @@ class _ChatsList extends ConsumerWidget {
             (chat) => ListTile(
               title: Text(chat.name),
               onTap: () {
-                ref.read(AppProvider.navigatorProvider).openChat(chat);
+                ref.read(AppProvider.navigatorProvider).openChat(chat.id);
               },
             ),
           )

@@ -5,7 +5,11 @@ import 'professional_members_state_holder.dart';
 class ProfessionalMembersManager with InitialDisposableMixin {
   final ProfessionalMembersApi _api;
   final ProfessionalMembersStateHolder _stateHolder;
-  ProfessionalMembersManager(this._api, this._stateHolder);
+
+  ProfessionalMembersManager(
+    this._api,
+    this._stateHolder,
+  );
 
   @override
   Future<void> init() async {

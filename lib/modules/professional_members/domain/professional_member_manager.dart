@@ -4,6 +4,7 @@ import '../../../models/professional_member.dart';
 import '../../../services/auth_service.dart';
 import '../api/professional_members_api.dart';
 import 'professional_member_state_holder.dart';
+import 'professional_members_state_holder.dart';
 
 class ProfessionalMemberManager {
   final ProfessionalMembersApi _api;
@@ -18,6 +19,15 @@ class ProfessionalMemberManager {
 
   Future<void> init() async {
     _stateHolder.setAuthorizedMember(_appStateHolder.member);
+  }
+
+  Future<void> loadMemberById(String memberId) async {
+    final member = await _api.member(
+      params: ProfessionalMemberApiParams(id: memberId),
+    );
+    if (member != null) {
+      _stateHolder.setMember(member);
+    }
   }
 
   void setMember(ProfessionalMember member) => _stateHolder.setMember(member);
@@ -51,5 +61,15 @@ class ProfessionalMemberManager {
     setMember(member);
   }
 
-  Future<void> dispose() async {}
+  Future<void> updateAndSaveMember(ProfessionalMember member) async {
+    edit();
+    updateMember(member);
+    save();
+  }
+
+  void clear() => _stateHolder.clear();
+
+  Future<void> dispose() async {
+    _stateHolder.clear();
+  }
 }

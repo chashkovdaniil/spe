@@ -9,7 +9,4 @@ class ProfessionalMembersState with _$ProfessionalMembersState {
   const factory ProfessionalMembersState({
     required List<ProfessionalMember> members,
   }) = _ProfessionalMembersState;
-
-  const factory ProfessionalMembersState.empty() =
-      _ProfessionalMembersStateEmpty;
 }

@@ -14,6 +14,4 @@ class ChatsState with _$ChatsState {
 
   factory ChatsState.fromJson(Map<String, dynamic> json) =>
       _$ChatsStateFromJson(json);
-
-  factory ChatsState.empty() => const ChatsState(chats: [], chat: null);
 }

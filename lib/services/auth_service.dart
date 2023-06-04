@@ -18,7 +18,9 @@ class AuthService {
   );
 
   Stream<User?> get userStream => _auth.userChanges();
-  Stream<bool> get hasUser => _auth.userChanges().map((user) => user != null);
+  Stream<bool> get hasUserStream =>
+      _auth.userChanges().map((user) => user != null);
+  bool get hasUser => _auth.currentUser != null;
 
   Future<void> init() async {
     _userSub = _auth.userChanges().listen((user) async {

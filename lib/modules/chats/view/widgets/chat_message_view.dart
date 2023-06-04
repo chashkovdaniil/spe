@@ -39,7 +39,7 @@ class ChatMessagesView extends HookConsumerWidget {
       children: [
         Expanded(child: body),
         Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.only(left: 10),
           decoration: BoxDecoration(
             color: Theme.of(context).inputDecorationTheme.focusColor,
             borderRadius: BorderRadius.circular(20),

@@ -38,6 +38,7 @@ _$_ProfessionalMember _$$_ProfessionalMemberFromJson(
       role:
           $enumDecodeNullable(_$ProfessionalMemberRolesEnumMap, json['role']) ??
               ProfessionalMemberRoles.user,
+      photoUrl: json['photoUrl'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$_ProfessionalMemberToJson(
@@ -70,6 +71,7 @@ Map<String, dynamic> _$$_ProfessionalMemberToJson(
       'companyCategory': instance.companyCategory,
       'email': instance.email,
       'role': _$ProfessionalMemberRolesEnumMap[instance.role]!,
+      'photoUrl': instance.photoUrl,
     };
 
 const _$ProfessionalMemberRolesEnumMap = {

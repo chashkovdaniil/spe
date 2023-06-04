@@ -5,6 +5,7 @@ import 'api/professional_members_api.dart';
 import 'api/professional_members_api_firestore.dart';
 import 'domain/models/professional_member_state.dart';
 import 'domain/models/professional_members_state.dart';
+import 'domain/photo_manager.dart';
 import 'domain/professional_member_manager.dart';
 import 'domain/professional_member_state_holder.dart';
 import 'domain/professional_members_manager.dart';
@@ -17,7 +18,7 @@ class ProfessionalMemberProviders {
     (ref) {
       // return ProfessionalMembersApiMock();
       return ProfessionalMembersApiFirebase(
-        ref.watch(AppProvider.storageService),
+        ref.watch(AppProvider.firbaseService),
         ref.watch(AppProvider.appStateHolder),
       );
     },
@@ -55,4 +56,12 @@ class ProfessionalMemberProviders {
       return manager;
     },
   );
+
+  static final photoManager = Provider<PhotoManager>((ref) {
+    return PhotoManager(
+      ref.watch(AppProvider.storageService),
+      ref.watch(AppProvider.appStateHolder.notifier),
+      ref.watch(ProfessionalMemberProviders.memberManager),
+    );
+  });
 }

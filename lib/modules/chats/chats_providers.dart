@@ -14,8 +14,8 @@ class ChatsProviders {
 
   static final api = Provider<ChatsApi>(
     (ref) => ChatsApiImpl(
-      ref.watch(AppProvider.storageService),
-      ref.watch(AppProvider.appStateHolder),
+      ref.watch(AppProvider.firbaseService),
+      ref.watch(AppProvider.appStateHolder.notifier),
     ),
   );
 
@@ -35,10 +35,6 @@ class ChatsProviders {
         ref.watch(api),
         ref.watch(addStateHolder.notifier),
         ref.watch(stateHolder.notifier),
-        ref.watch(
-          AppProvider.appStateHolder
-              .select((state) => state.professionalMember),
-        ),
       );
       ref.onDispose(() {
         manager.dispose();

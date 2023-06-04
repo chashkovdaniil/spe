@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../core/app_providers.dart';
+import '../../../core/widgets/appbar.dart';
 import '../../../models/professional_member.dart';
 import '../professiona_members_providers.dart';
 
@@ -16,7 +17,7 @@ class ProfessionalMembersPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Список участников'),
+        title: TitleAppBar('Список участников'),
         actions: [
           IconButton(
             onPressed: () {
@@ -44,13 +45,9 @@ class ProfessionalMemberListWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scrollController = useScrollController();
     final members = ref.watch(ProfessionalMemberProviders.stateHolder.select(
-      (value) {
-        return value.map(
-          (value) => value.members,
-          empty: (_) => const <ProfessionalMember>[],
-        );
-      },
+      (state) => state.members,
     ));
+
     if (members.isEmpty) {
       return const Center(
         child: Text('Других участников нет'),

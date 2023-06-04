@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/utils.dart';
 import '../../../models/app_state.dart';
 import '../../../models/professional_member.dart';
-import '../../../services/storage_service.dart';
+import '../../../services/firstore_service.dart';
 import '../api/chats_api.dart';
 import 'chats_add_state_holder.dart';
 import 'chats_state_holder.dart';
@@ -16,7 +16,6 @@ class ChatsManager with InitialDisposableMixin {
   final ChatsApi _chatsApi;
   final ChatsAddStateHolder _chatsAddStateHolder;
   final ChatsStateHolder _chatsStateHolder;
-  final ProfessionalMember? _currentUser;
   StreamSubscription<List<Chat>>? _chatsSubscription;
   StreamSubscription<List<ChatMessage>>? _messagesSubscription;
 
@@ -24,27 +23,18 @@ class ChatsManager with InitialDisposableMixin {
     this._chatsApi,
     this._chatsAddStateHolder,
     this._chatsStateHolder,
-    this._currentUser,
   );
 
   @override
   Future<void> init() async {
-    if (isInited) {
+    if (_chatsSubscription != null) {
       return;
     }
-    List<Chat> chats;
-    // if (_currentUser?.role == ProfessionalMemberRoles.admin) {
-    //   chats = await _chatsApi.allChats();
-    //   _chatsStateHolder.setChats(chats);
-    // }
-    // else {
-    //   chats = await _chatsApi.chats();
-    // }
-    // _chatsStateHolder.setChats(chats);
     super.init();
+    _subscribeOnChatChanges();
   }
 
-  Future<void> subscribeOnChatChanges() async {
+  Future<void> _subscribeOnChatChanges() async {
     _chatsSubscription = _chatsApi.chatsStream.listen((chats) {
       _chatsStateHolder.setChats(chats);
     });
@@ -73,24 +63,18 @@ class ChatsManager with InitialDisposableMixin {
     if (message.isEmpty) {
       return;
     }
-    final sender = _currentUser;
+
     final chat = _chatsStateHolder.data.chat;
-    if (chat == null || sender == null) {
+
+    if (chat == null) {
       return;
     }
 
-    final chatMessage = ChatMessage(
-      id: uuid.v4(),
-      sentAt: DateTime.now(),
-      message: message,
-      sender: sender,
-    );
-
-    _chatsApi.sendMessage(chat, chatMessage);
+    _chatsApi.sendMessage(chat, message);
   }
 
-  Future<void> selectChat(Chat selectedChat) async {
-    final chat = await _chatsApi.chat(id: selectedChat.id);
+  Future<void> loadChat(String chatId) async {
+    final chat = await _chatsApi.chat(id: chatId);
 
     if (chat == null) {
       return;
@@ -100,7 +84,7 @@ class ChatsManager with InitialDisposableMixin {
     subscribeOnChatMessages(chat.id);
   }
 
-  void unselectChat() {
+  void closeChat() {
     cancelSubscriptionOnMessages();
     _chatsStateHolder.setChat(null);
   }

@@ -4,36 +4,24 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../core/app_providers.dart';
 
+enum NavigationTabs { profile, members, chats, logout }
+
 class NaviPage extends HookConsumerWidget {
   const NaviPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedIndex = useState(1);
     final navigatorProvider = ref.watch(AppProvider.navigatorProvider);
+    final selectedTab = ref.watch(AppProvider.appStateHolder
+        .select((state) => state.selectedNavigationTab));
 
     return Container(
       margin: const EdgeInsets.only(right: 10),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(60),
-          bottomRight: Radius.circular(60),
-        ),
-        // shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            offset: const Offset(0, 5),
-            blurRadius: 10,
-            color: Colors.black12.withOpacity(0.05),
-          ),
-          BoxShadow(
-            offset: const Offset(10, 5),
-            blurRadius: 10,
-            color: Colors.black12.withOpacity(0.05),
-          ),
-          BoxShadow(
-            offset: const Offset(-10, 5),
+            offset: const Offset(10, 0),
             blurRadius: 10,
             color: Colors.black12.withOpacity(0.05),
           ),
@@ -41,6 +29,10 @@ class NaviPage extends HookConsumerWidget {
       ),
       child: NavigationRail(
         extended: true,
+        leading: Text(
+          "SPE",
+          style: Theme.of(context).appBarTheme.titleTextStyle,
+        ),
         destinations: const [
           NavigationRailDestination(
             icon: Icon(Icons.person),
@@ -61,18 +53,20 @@ class NaviPage extends HookConsumerWidget {
             padding: EdgeInsets.all(10),
           ),
         ],
-        selectedIndex: selectedIndex.value,
+        selectedIndex: selectedTab.index,
         onDestinationSelected: (index) {
-          if (index == 0) {
-            navigatorProvider.openProfile();
-          } else if (index == 1) {
-            navigatorProvider.openProfessionalMembers();
-          } else if (index == 2) {
-            navigatorProvider.openChats();
-          } else if (index == 3) {
-            navigatorProvider.logout();
+          final selectedTab = NavigationTabs.values[index];
+
+          switch (selectedTab) {
+            case NavigationTabs.profile:
+              navigatorProvider.openProfile();
+            case NavigationTabs.members:
+              navigatorProvider.openProfessionalMembers();
+            case NavigationTabs.chats:
+              navigatorProvider.openChats();
+            case NavigationTabs.logout:
+              navigatorProvider.logout();
           }
-          selectedIndex.value = index;
         },
       ),
     );

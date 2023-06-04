@@ -25,3 +25,7 @@ mixin InitialDisposableMixin {
 
   void addSubscription(StreamSubscription<Object?> sub) => _subs.add(sub);
 }
+
+extension BuildContextX on BuildContext {
+  bool get isPhone => MediaQuery.of(this).size.width < 900;
+}

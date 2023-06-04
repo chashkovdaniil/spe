@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/utils.dart';
+import '../../../core/widgets/appbar.dart';
 import '../../../core/widgets/loading_widget.dart';
 import '../../../models/professional_member.dart';
 import '../professiona_members_providers.dart';
@@ -13,54 +15,49 @@ class ProfessionalMemberArguments {
   ProfessionalMemberArguments(this.member);
 }
 
-class ProfessionalMemberPage extends StatelessWidget {
-  static const pageName = '/member';
-  const ProfessionalMemberPage({Key? key}) : super(key: key);
+class ProfessionalMemberPage extends ConsumerStatefulWidget {
+  static const pageName = '/members/:memberId';
+  final String memberId;
+  const ProfessionalMemberPage(this.memberId, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)?.settings.arguments
-        as ProfessionalMemberArguments?;
-
-    if (arguments == null) {
-      return const LoadingWidget();
-    }
-    return _Body(member: arguments.member);
-  }
+  _ProfessionalMemberPageState createState() => _ProfessionalMemberPageState();
 }
 
-class _Body extends ConsumerStatefulWidget {
-  final ProfessionalMember member;
-  const _Body({Key? key, required this.member}) : super(key: key);
-
-  @override
-  __BodyState createState() => __BodyState();
-}
-
-class __BodyState extends ConsumerState<_Body> {
+class _ProfessionalMemberPageState
+    extends ConsumerState<ProfessionalMemberPage> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(ProfessionalMemberProviders.memberManager)
         ..init()
-        ..setMember(
-          widget.member,
+        ..loadMemberById(
+          widget.memberId,
         );
     });
   }
 
   @override
+  void didUpdateWidget(covariant ProfessionalMemberPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    ref.read(ProfessionalMemberProviders.memberManager).loadMemberById(
+          widget.memberId,
+        );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final stateHolder = ref.watch(
+    final state = ref.watch(
       ProfessionalMemberProviders.memberStateHolder,
     );
 
-    final canEdit = stateHolder.canEdit;
-    final canSave = stateHolder.canSave;
-    final isSaving = stateHolder.isSaving;
-    final isEditing = stateHolder.isEditing;
-    final member = stateHolder.member;
+    final canEdit = state.canEdit;
+    final canSave = state.canSave;
+    final isSaving = state.isSaving;
+    final isEditing = state.isEditing;
+    final member = state.member;
+    final isCurrentMember = canEdit || canSave;
 
     void updateMember(ProfessionalMember member) => ref
         .read(ProfessionalMemberProviders.memberManager)
@@ -72,7 +69,7 @@ class __BodyState extends ConsumerState<_Body> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(member.fullname),
+        title: TitleAppBar(isCurrentMember ? "Мой профиль" : member.fullname),
       ),
       floatingActionButton: canEdit || canSave
           ? FloatingActionButton.extended(
@@ -92,9 +89,41 @@ class __BodyState extends ConsumerState<_Body> {
       body: isSaving
           ? const LoadingWidget()
           : SingleChildScrollView(
+              padding: const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Flex(
+                    direction:
+                        context.isPhone ? Axis.vertical : Axis.horizontal,
+                    children: [
+                      Image.network(
+                        member.photoUrl,
+                        width: 300,
+                        height: 400,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) {
+                          return const Placeholder(
+                            fallbackWidth: 300,
+                            fallbackHeight: 400,
+                          );
+                        },
+                      ),
+                      if (canEdit) ...[
+                        const SizedBox(width: 30),
+                        ElevatedButton(
+                          onPressed: () {
+                            ref
+                                .read(ProfessionalMemberProviders.photoManager)
+                                .pickAndSavePhoto();
+                          },
+                          child: Text(
+                            'Заменить',
+                          ),
+                        ),
+                      ]
+                    ],
+                  ),
                   _Field<String>(
                     field: 'Имя',
                     value: member.firstName,
@@ -254,21 +283,34 @@ class _Field<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPhone = context.isPhone;
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Row(
+      child: Flex(
+        direction: isPhone ? Axis.vertical : Axis.vertical,
+        crossAxisAlignment:
+            isPhone ? CrossAxisAlignment.start : CrossAxisAlignment.center,
         children: [
           Text(
             '$field:',
             textAlign: TextAlign.start,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
           if (isEdit)
-            Flexible(
-              child: _FieldEditable<T>(
+            if (!isPhone)
+              Flexible(
+                child: _FieldEditable<T>(
+                  value: value,
+                  onChanged: onChanged,
+                ),
+              )
+            else
+              _FieldEditable<T>(
                 value: value,
                 onChanged: onChanged,
-              ),
-            )
+              )
           else
             _FieldReadable<T>(value: value),
         ],
@@ -293,7 +335,10 @@ class _FieldReadable<T> extends StatelessWidget {
       resultValue = DateFormat.yMMMd('ru_RU').format(value as DateTime);
     }
 
-    return Text(resultValue);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Text(resultValue),
+    );
   }
 }
 
@@ -335,7 +380,8 @@ class _FieldEditable<T> extends HookWidget {
       );
     } else if (value is DateTime) {
       final valueState = useState(value as DateTime);
-      resultWidget = Row(
+      resultWidget = Flex(
+        direction: context.isPhone ? Axis.vertical : Axis.horizontal,
         children: [
           Text(DateFormat.yMMMd('ru_RU').format(valueState.value.toLocal())),
           OutlinedButton(

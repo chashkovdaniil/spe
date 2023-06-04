@@ -29,4 +29,6 @@ class ProfessionalMemberStateHolder
 
   void setAuthorizedMember(ProfessionalMember? autherizedMember) =>
       state = state.copyWith(authorizedMember: autherizedMember);
+
+  void clear() => state = const ProfessionalMemberState();
 }

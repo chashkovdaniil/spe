@@ -1,18 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rxdart/rxdart.dart';
 
+import '../../../core/state/app_state_holder.dart';
 import '../../../core/utils.dart';
 import '../../../models/app_state.dart';
 import '../../../models/professional_member.dart';
-import '../../../services/storage_service.dart';
+import '../../../services/firstore_service.dart';
 import '../domain/models/chat.dart';
 import '../domain/models/chat_message.dart';
 import 'chats_api.dart';
 
 class ChatsApiImpl implements ChatsApi {
-  final StorageService _storageService;
-  final AppState _appState;
+  final FirestoreService _storageService;
+  final AppStateHolder _appStateHolder;
 
-  ChatsApiImpl(this._storageService, this._appState);
+  ChatsApiImpl(this._storageService, this._appStateHolder);
 
   @override
   Future<void> addMembers(Chat chat, List<ProfessionalMember> members) {
@@ -22,7 +24,7 @@ class ChatsApiImpl implements ChatsApi {
 
   @override
   Future<void> createChat(String name, List<ProfessionalMember> members) async {
-    final currentMember = _appState.professionalMember;
+    final currentMember = _appStateHolder.member;
 
     if (currentMember == null) {
       return;
@@ -54,18 +56,28 @@ class ChatsApiImpl implements ChatsApi {
   }
 
   @override
-  Future<void> sendMessage(Chat chat, ChatMessage message) async {
+  Future<void> sendMessage(Chat chat, String message) async {
+    final sender = _appStateHolder.member;
+    if (sender == null) {
+      return;
+    }
+    final chatMessage = ChatMessage(
+      id: uuid.v4(),
+      sentAt: DateTime.now(),
+      message: message,
+      sender: sender,
+    );
     final path = '${CollectionPaths.chats.path}/${chat.id}'
         '${CollectionPaths.chatMessages.path}';
 
-    final messageAsJson = message.toJson();
-    messageAsJson['sender'] = message.sender.ref;
-    await _storageService.add(path, messageAsJson, id: message.id);
+    final messageAsJson = chatMessage.toJson();
+    messageAsJson['sender'] = chatMessage.sender.ref;
+    await _storageService.add(path, messageAsJson, id: chatMessage.id);
   }
 
   @override
   Future<Chat?> chat({String? id}) async {
-    final currentMember = _appState.professionalMember;
+    final currentMember = _appStateHolder.member;
     if (currentMember == null) {
       throw StateError('Current user is null');
     }
@@ -85,7 +97,7 @@ class ChatsApiImpl implements ChatsApi {
 
   @override
   Future<List<Chat>> chats() async {
-    final currentMember = _appState.professionalMember;
+    final currentMember = _appStateHolder.member;
     if (currentMember == null) {
       throw StateError('Current user is null');
     }
@@ -109,16 +121,15 @@ class ChatsApiImpl implements ChatsApi {
 
   @override
   Stream<List<Chat>> get chatsStream {
-    final currentMember = _appState.professionalMember;
-    if (currentMember == null) {
-      throw StateError('Current user is null');
+    final member = _appStateHolder.member;
+    if (member == null) {
+      throw StateError('Current member is null');
     }
-
     return _storageService
         .streamWhere(
           CollectionPaths.chats.path,
           'members',
-          arrayContains: currentMember.ref,
+          arrayContains: member.ref,
         )
         .map((documents) => documents.map((doc) {
               doc.data?['members'] = null;
@@ -130,7 +141,7 @@ class ChatsApiImpl implements ChatsApi {
 
   @override
   Stream<List<ChatMessage>> messagesStream(String chatId) {
-    final currentMember = _appState.professionalMember;
+    final currentMember = _appStateHolder.member;
     if (currentMember == null) {
       throw StateError('Current user is null');
     }
@@ -160,7 +171,7 @@ class ChatsApiImpl implements ChatsApi {
 
   @override
   Future<List<Chat>> allChats() async {
-    final currentMember = _appState.professionalMember;
+    final currentMember = _appStateHolder.member;
     if (currentMember == null) {
       throw StateError('Current user is null');
     }

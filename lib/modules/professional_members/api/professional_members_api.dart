@@ -17,7 +17,9 @@ abstract interface class ProfessionalMembersApi {
     required ProfessionalMemberApiParams params,
   });
 
-  Stream<ProfessionalMember> memberStream({
+  Future<List<ProfessionalMember>> membersByFullname(String textForSpeech);
+
+  Stream<ProfessionalMember?> memberStream({
     required ProfessionalMemberApiParams params,
   });
 
