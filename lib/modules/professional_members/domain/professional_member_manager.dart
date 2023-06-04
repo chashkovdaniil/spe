@@ -67,8 +67,6 @@ class ProfessionalMemberManager {
     save();
   }
 
-  void clear() => _stateHolder.clear();
-
   Future<void> dispose() async {
     _stateHolder.clear();
   }

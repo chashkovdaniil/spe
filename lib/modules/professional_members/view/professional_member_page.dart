@@ -30,11 +30,9 @@ class _ProfessionalMemberPageState
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(ProfessionalMemberProviders.memberManager)
-        ..init()
-        ..loadMemberById(
-          widget.memberId,
-        );
+      ref.read(ProfessionalMemberProviders.memberManager).loadMemberById(
+            widget.memberId,
+          );
     });
   }
 
@@ -48,6 +46,7 @@ class _ProfessionalMemberPageState
 
   @override
   Widget build(BuildContext context) {
+    final manager = ref.watch(ProfessionalMemberProviders.memberManager);
     final state = ref.watch(
       ProfessionalMemberProviders.memberStateHolder,
     );
@@ -59,9 +58,8 @@ class _ProfessionalMemberPageState
     final member = state.member;
     final isCurrentMember = canEdit || canSave;
 
-    void updateMember(ProfessionalMember member) => ref
-        .read(ProfessionalMemberProviders.memberManager)
-        .updateMember(member);
+    void updateMember(ProfessionalMember member) =>
+        manager.updateMember(member);
 
     if (member == null) {
       return const LoadingWidget();
@@ -75,9 +73,9 @@ class _ProfessionalMemberPageState
           ? FloatingActionButton.extended(
               onPressed: () {
                 if (canSave) {
-                  ref.read(ProfessionalMemberProviders.memberManager).save();
+                  manager.save();
                 } else {
-                  ref.read(ProfessionalMemberProviders.memberManager).edit();
+                  manager.edit();
                 }
               },
               icon: Icon(canSave ? Icons.save : Icons.edit),
@@ -287,7 +285,7 @@ class _Field<T> extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Flex(
-        direction: isPhone ? Axis.vertical : Axis.vertical,
+        direction: isPhone ? Axis.vertical : Axis.horizontal,
         crossAxisAlignment:
             isPhone ? CrossAxisAlignment.start : CrossAxisAlignment.center,
         children: [

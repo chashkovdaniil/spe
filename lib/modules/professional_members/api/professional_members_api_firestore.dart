@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../core/state/app_state_holder.dart';
 import '../../../models/app_state.dart';
 import '../../../models/professional_member.dart';
 import '../../../services/firstore_service.dart';
@@ -7,11 +8,11 @@ import 'professional_members_api.dart';
 
 class ProfessionalMembersApiFirebase implements ProfessionalMembersApi {
   final FirestoreService _firestoreService;
-  final AppState _appState;
+  final AppStateHolder _appStateHolder;
 
   ProfessionalMembersApiFirebase(
     this._firestoreService,
-    this._appState,
+    this._appStateHolder,
   );
 
   @override
@@ -90,7 +91,7 @@ class ProfessionalMembersApiFirebase implements ProfessionalMembersApi {
     return docs
         .whereType<Document>()
         .map((doc) => ProfessionalMember.fromDocument(doc))
-        .where((element) => element.id != _appState.professionalMember?.id)
+        .where((element) => element.id != _appStateHolder.member?.id)
         .toList();
   }
 
@@ -105,7 +106,7 @@ class ProfessionalMembersApiFirebase implements ProfessionalMembersApi {
     return docs.map(
       (docs) => docs
           .map((doc) => ProfessionalMember.fromDocument(doc))
-          .where((element) => element.id != _appState.professionalMember?.id)
+          .where((element) => element.id != _appStateHolder.member?.id)
           .toList(),
     );
   }

@@ -19,7 +19,7 @@ class ProfessionalMemberProviders {
       // return ProfessionalMembersApiMock();
       return ProfessionalMembersApiFirebase(
         ref.watch(AppProvider.firbaseService),
-        ref.watch(AppProvider.appStateHolder),
+        ref.watch(AppProvider.appStateHolder.notifier),
       );
     },
   );
@@ -33,13 +33,15 @@ class ProfessionalMemberProviders {
       ProfessionalMemberStateHolder, ProfessionalMemberState>(
     (_) => ProfessionalMemberStateHolder(),
   );
-  static final memberManager = Provider<ProfessionalMemberManager>(
+  static final memberManager = Provider.autoDispose<ProfessionalMemberManager>(
     (ref) {
       final manager = ProfessionalMemberManager(
         ref.watch(api),
         ref.watch(memberStateHolder.notifier),
         ref.watch(AppProvider.appStateHolder.notifier),
       );
+
+      manager.init();
       ref.onDispose(manager.dispose);
       return manager;
     },
@@ -51,13 +53,12 @@ class ProfessionalMemberProviders {
         ref.watch(api),
         ref.watch(stateHolder.notifier),
       );
-
       ref.onDispose(manager.dispose);
       return manager;
     },
   );
 
-  static final photoManager = Provider<PhotoManager>((ref) {
+  static final photoManager = Provider.autoDispose<PhotoManager>((ref) {
     return PhotoManager(
       ref.watch(AppProvider.storageService),
       ref.watch(AppProvider.appStateHolder.notifier),
