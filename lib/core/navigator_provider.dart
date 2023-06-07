@@ -82,24 +82,34 @@ class NavigatorProvider {
 
   GoRouter get routerConfig => GoRouter(
         navigatorKey: _key,
-        initialLocation: ProfessionalMembersPage.pageName,
+        initialLocation: '/',
         redirect: (context, state) async {
-          Future.delayed(Duration.zero, () {
-            if (!_authService.hasUser) {
-              return NavigatorRouteNames.signIn.name;
-            }
-            final currentMemberId = _appStateHolder.member?.id ?? '';
-            if (state.location.contains(currentMemberId) == true &&
-                currentMemberId.isNotEmpty) {
+          if (!_authService.hasUser) {
+            return NavigatorRouteNames.signIn.name;
+          }
+          final currentUserIsAdmin =
+              _appStateHolder.member?.role.isAdmin ?? false;
+          final currentMemberId = _appStateHolder.member?.id ?? '';
+          final isMyProfile =
+              state.location.contains(currentMemberId) == true &&
+                  currentMemberId.isNotEmpty;
+          final isChats = state.location.contains('chat') == true;
+          final isMembers = (state.location == '/' ||
+                  state.location.contains('members') == true) &&
+              currentUserIsAdmin;
+
+          var result = await Future.delayed(Duration.zero, () {
+            if (isMyProfile) {
               _appStateHolder.setNavigationTab(NavigationTabs.profile);
-            } else if (state.location.contains('chat') == true) {
+            } else if (isChats) {
               _appStateHolder.setNavigationTab(NavigationTabs.chats);
-            } else if (state.location == '/' ||
-                state.location.contains('members') == true) {
+            } else if (isMembers) {
               _appStateHolder.setNavigationTab(NavigationTabs.members);
+            } else {
+              return ChatsPage.routeName;
             }
           });
-          return null;
+          return result;
         },
         routes: [
           GoRoute(

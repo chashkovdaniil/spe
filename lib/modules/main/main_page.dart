@@ -78,6 +78,8 @@ class _BottomNavigationBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedTab = ref.watch(AppProvider.appStateHolder
         .select((state) => state.selectedNavigationTab));
+    final currentUserIsAdmin = ref.watch(AppProvider.appStateHolder
+        .select((value) => value.professionalMember?.role.isAdmin ?? false));
     return BottomNavigationBar(
       currentIndex: selectedTab.index,
       showSelectedLabels: true,
@@ -87,10 +89,11 @@ class _BottomNavigationBar extends ConsumerWidget {
           icon: Icon(Icons.person_2_outlined),
           label: 'Мой профиль',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.people_outline),
-          label: 'Участники',
-        ),
+        if (currentUserIsAdmin)
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            label: 'Участники',
+          ),
         BottomNavigationBarItem(
           icon: Icon(Icons.messenger_outline_rounded),
           label: 'Чаты',

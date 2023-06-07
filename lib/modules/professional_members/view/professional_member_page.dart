@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/app_providers.dart';
 import '../../../core/utils.dart';
 import '../../../core/widgets/appbar.dart';
 import '../../../core/widgets/loading_widget.dart';
@@ -50,6 +51,8 @@ class _ProfessionalMemberPageState
     final state = ref.watch(
       ProfessionalMemberProviders.memberStateHolder,
     );
+    final isAdmin = ref.watch(AppProvider.appStateHolder
+        .select((value) => value.professionalMember?.role.isAdmin ?? false));
 
     final canEdit = state.canEdit;
     final canSave = state.canSave;
@@ -189,14 +192,14 @@ class _ProfessionalMemberPageState
                   _Field<bool>(
                       field: 'Аффилированный участник',
                       value: member.affiliateMember,
-                      isEdit: isEditing,
+                      isEdit: isEditing && isAdmin,
                       onChanged: (val) {
                         updateMember(member.copyWith(affiliateMember: val));
                       }),
                   _Field<bool>(
                     field: 'Волонетер (или был им)',
                     value: member.currentOrPastVolunteer,
-                    isEdit: isEditing,
+                    isEdit: isEditing && isAdmin,
                     onChanged: (val) {
                       updateMember(
                           member.copyWith(currentOrPastVolunteer: val));
@@ -213,7 +216,7 @@ class _ProfessionalMemberPageState
                   _Field<bool>(
                     field: 'Является ли сейчас участником сообщества',
                     value: member.currentMember,
-                    isEdit: isEditing,
+                    isEdit: isEditing && isAdmin,
                     onChanged: (val) {
                       updateMember(member.copyWith(currentMember: val));
                     },
@@ -221,7 +224,7 @@ class _ProfessionalMemberPageState
                   _Field<DateTime>(
                     field: 'Вступил в сообщество',
                     value: member.memberSince,
-                    isEdit: isEditing,
+                    isEdit: isEditing && isAdmin,
                     onChanged: (val) {
                       updateMember(member.copyWith(memberSince: val));
                     },
@@ -229,7 +232,7 @@ class _ProfessionalMemberPageState
                   _Field<bool>(
                     field: 'Новый участник',
                     value: member.newMember,
-                    isEdit: isEditing,
+                    isEdit: isEditing && isAdmin,
                     onChanged: (val) {
                       updateMember(member.copyWith(newMember: val));
                     },
@@ -237,7 +240,7 @@ class _ProfessionalMemberPageState
                   _Field<bool>(
                     field: 'Сеньор',
                     value: member.seniorProfessional,
-                    isEdit: isEditing,
+                    isEdit: isEditing && isAdmin,
                     onChanged: (val) {
                       updateMember(member.copyWith(seniorProfessional: val));
                     },
@@ -254,7 +257,7 @@ class _ProfessionalMemberPageState
                   _Field<DateTime>(
                     field: 'Участие оплачено',
                     value: member.paidThrough,
-                    isEdit: isEditing,
+                    isEdit: isEditing && isAdmin,
                     onChanged: (val) {
                       updateMember(member.copyWith(paidThrough: val));
                     },
